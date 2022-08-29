@@ -50,7 +50,7 @@ export default {
       }
     },
     itemClass() {
-      return 'block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-primary hover:text-white focus:outline-none focus:bg-gray-100 focus:text-gray-900'
+      return 'block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-primary focus:outline-none focus:bg-gray-100 focus:text-gray-900'
     },
   },
   methods: {
