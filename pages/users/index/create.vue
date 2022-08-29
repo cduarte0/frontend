@@ -43,6 +43,14 @@
             class=""
             required
           />
+          <SelectInput
+            label="Estado Civil"
+            placeholder="Selecione uma opcao"
+            :items="statusM"
+            v-model="users.civilStatus"
+            class=""
+            required
+          />
           <TextInput
             label="Senha"
             placeholder="Senha"
@@ -100,9 +108,10 @@ export default defineComponent({
       dateBirth: '2022-08-28',
       dateEnd: '2022-08-28',
       dateStart: '2022-08-28',
-      email: 'cduarte@caritas',
+      email: 'cduartemz@caritas',
       fullName: '',
       gender: '',
+      civilStatus: '',
       password: '',
       passwordConfirmation: '',
       phoneNumber: '',
