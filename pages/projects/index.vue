@@ -90,6 +90,22 @@
                     justify-items-center
                     p-2
                     rounded-sm
+                    bg-green-500
+                    text-white
+                    cursor-pointer
+                  "
+                  @click="projectDetail(project)"
+                >
+                  <ViewOutline/>
+                </div>
+                <div
+                  class="
+                    flex
+                    w-8
+                    h-8
+                    justify-items-center
+                    p-2
+                    rounded-sm
                     bg-red-500
                     text-white
                     cursor-pointer
@@ -118,10 +134,12 @@ import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
   name: "Index",
   components: {
+    ViewOutline,
     Page,
     AppButton,
     TextInput,
