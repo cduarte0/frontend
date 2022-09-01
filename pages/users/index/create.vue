@@ -30,7 +30,7 @@
             required
           />
           <SelectInput
-            label="Estado civil"
+            label="Estado Civil"
             placeholder="Selecione uma opcao"
             :items="statusM"
             v-model="users.civilStatus"
@@ -164,15 +164,15 @@ export default defineComponent({
     gender: ['Masculino', 'Feminino'],
     statusM: ['Casado', 'Solteiro', 'Divorciado'],
     users: {
-      address: '',
       projectId: '',
+      address: '',
       dateBirth: '',
-      civilStatus: '',
       dateEnd: '',
       dateStart: '',
       email: '',
       fullName: '',
       gender: '',
+      civilStatus: '',
       password: '',
       passwordConfirmation: '',
       phoneNumber: '',
