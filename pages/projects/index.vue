@@ -43,7 +43,7 @@
               size="large"
               @click.native="
                 $router.push({
-                  name: 'project-index-create',
+                  name: 'projects-index-create',
                 })
               "
             >
@@ -192,7 +192,7 @@ export default defineComponent({
 
     goToEdit(project: any) {
       this.$router.push({
-        name: "users-index-id-edit",
+        name: "projects-index-id-edit",
         params: { project: project},
       });
     },

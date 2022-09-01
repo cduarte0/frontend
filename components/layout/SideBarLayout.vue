@@ -29,27 +29,10 @@
         "
       >
         <div class="px-4 pb-6">
-          <h3 class="mb-2 text-xs uppercase text-gray-500 font-medium">
+          <h3 class="mb-2 text-xs uppercase text-gray-900 font-medium">
             Principais
           </h3>
           <ul class="mb-8 text-sm font-medium">
-            <li>
-              <nuxt-link
-                class="
-                  flex
-                  items-center
-                  pl-3
-                  py-3
-                  pr-4
-                  text-gray-50
-                  bg-red-500
-                  rounded
-                "
-                to="/dashboard"
-              >
-                <span>Dashboard</span>
-              </nuxt-link>
-            </li>
 
             <li>
               <nuxt-link
@@ -157,8 +140,8 @@
 </template>
 
 <script lang="ts">
-// import { defineComponent } from '@nuxtjs/composition-api'
-// import BurgerMenu from '~/assets/icons/burger-menu.vue'
+import { defineComponent } from '@nuxtjs/composition-api'
+import BurgerMenu from '~/assets/icons/burger-menu.vue'
 // import OpenBookIcon from '~/assets/icons/open-book.vue'
 // import CarClusterIcon from '~/assets/icons/car-cluster.vue'
 // import PersonFrameIcon from '~/assets/icons/person-frame.vue'
@@ -179,9 +162,9 @@
 //   counter?: number
 //   subMenu: Array<MenuItem>
 // }
-// export default defineComponent({
-//   name: 'Sidebar',
-//   components: {
+export default defineComponent({
+  name: 'Sidebar',
+  components: {
 //     ExitIcon,
 //     ArchiveFolder,
 //     PeopleAltIcon,
@@ -189,13 +172,13 @@
 //     PersonFrameIcon,
 //     CarClusterIcon,
 //     OpenBookIcon,
-//     BurgerMenu,
+    BurgerMenu,
 //     ConfigurationIcon,
 //     Scheduling,
 //     Domain,
 //     Assignment,
 //     ContactPhone,
-//   },
+  },
 //   data: () => ({
 //     modules: [],
 //     hiddenSettings: true,
@@ -206,5 +189,5 @@
 //       //this.$auth.logout()
 //     },
 //   },
-// })
+})
 </script>

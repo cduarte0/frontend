@@ -7,7 +7,13 @@
     >
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
-          <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
+          <TextInput
+            label=""
+            v-model="filters.name"
+            @input="fetchUsers"
+            placeholder="Pesquisar"
+            class="w-1/4 px-2"
+          />
           <div>
             <AppButton
               class="flex text-white"
@@ -74,24 +80,38 @@
           </Table>
         </div>
       </div>
+      <delet-modal
+        v-if="showDeleteModal"
+        @close="showDeleteModal = false"
+        @remove="remove"
+      >
+        <div class="flex">
+          <span
+            >Tem certeza que pretende remover o utilizador:
+            {{ selectedUser.username }}?</span
+          >
+        </div>
+      </delet-modal>
       <nuxt-child />
     </page>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
-import Page from "~/components/common/misc/Page.vue";
-import AppButton from "~/components/common/misc/AppButton.vue";
-import TextInput from "~/components/common/inputs/TextInput.vue";
-import AddUserIcon from "~/assets/icons/add-user.vue";
-import Table from "~/components/common/misc/Table.vue";
-import EditOutline from "~/assets/icons/edit_outline.vue";
-import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import { defineComponent } from '@nuxtjs/composition-api'
+import Page from '~/components/common/misc/Page.vue'
+import AppButton from '~/components/common/misc/AppButton.vue'
+import TextInput from '~/components/common/inputs/TextInput.vue'
+import AddUserIcon from '~/assets/icons/add-user.vue'
+import Table from '~/components/common/misc/Table.vue'
+import EditOutline from '~/assets/icons/edit_outline.vue'
+import DeleteOutline from '~/assets/icons/delete_outline.vue'
+import DeletModal from '~/components/common/misc/DeletModal.vue'
 
 export default defineComponent({
-  name: "Index",
+  name: 'Index',
   components: {
+    DeletModal,
     Page,
     AppButton,
     TextInput,
@@ -101,27 +121,45 @@ export default defineComponent({
     DeleteOutline,
   },
   data: () => ({
+    showDeleteModal: false,
     filters: {
       page: 0,
       name: '',
     },
-    data:[],
-    selectedUser: {},
+    data: [],
+    selectedUser: {
+      id:'',
+      address: '',
+      projectId: '',
+      dateBirth: '',
+      civilStatus: '',
+      dateEnd: '',
+      dateStart: '',
+      email: '',
+      fullName: '',
+      gender: '',
+      password: '',
+      passwordConfirmation: '',
+      phoneNumber: '',
+      provenance: '',
+      roles: [''],
+      username: '',
+    },
     usersHeaders: [
       {
-        key: "username",
-        title: "USER",
-        class: "whitespace-no-wrap",
+        key: 'username',
+        title: 'USER',
+        class: 'whitespace-no-wrap',
       },
       {
-        key: "project",
-        title: "PROJECTO",
-        class: "whitespace-no-wrap",
+        key: 'project',
+        title: 'PROJECTO',
+        class: 'whitespace-no-wrap',
       },
       {
-        key: "phoneNumber",
-        title: "Celular",
-        class: "whitespace-no-wrap",
+        key: 'phoneNumber',
+        title: 'Celular',
+        class: 'whitespace-no-wrap',
       },
     ],
   }),
@@ -131,9 +169,7 @@ export default defineComponent({
 
   computed: {
     users(this: any) {
-      return Object.values(
-        this.$store.state.users.all
-      )
+      return Object.values(this.$store.state.users.all)
     },
   },
 
@@ -142,17 +178,42 @@ export default defineComponent({
       this.$store.dispatch('users/fetchItems', {
         params: { ...this.filters },
       })
+      console.log(this.filters)
     },
 
-    goToEdit(user:any) {
+    goToEdit(user: any) {
       this.$router.push({
-        name: "users-index-id-edit",
+        name: 'users-index-id-edit',
         params: { user: user },
-      });
-      console.log(user);
+      })
+      console.log(user)
     },
-    deleteUser(user:any) {
+    deleteUser(user: any) {
+      this.selectedUser = user || {}
+      this.showDeleteModal = !this.showDeleteModal
     },
+    remove(){
+      this.$store.dispatch('users/deleteItem', {
+        config: {
+              URL: `/users/${this.selectedUser.id}`,
+            },
+      })
+      .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'Utilizador eliminado com sucesso',
+          })
+          this.$store.dispatch('users/fetchItems')
+          this.showDeleteModal = !this.showDeleteModal
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao eliminar utilizador, por favor tente novamente.',
+          })
+        })
+      
+    }
   },
-});
+})
 </script>
