@@ -93,7 +93,7 @@
             label="Tipo de utilizador"
             placeholder="Selecione uma opcao"
             :items="userType"
-            v-model="users.roles"
+            v-model="rol"
             class=""
             required
           />
@@ -155,11 +155,8 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 export default defineComponent({
   components: { Modal, AppButton, TextInput, SelectInput },
   data: () => ({
-    userType: [
-      { id: 1, value: 'ADMIN', name: 'Administrador' },
-      { id: 2, value: 'MANAGER', name: 'Gestor' },
-      { id: 3, value: 'NORMAL', name: 'Normal' },
-    ],
+    rol: '',
+    userType: ['Administrador', 'Gestor', 'Normal'],
     selectedProject: { id: '', name: '', value: '' },
     gender: ['Masculino', 'Feminino'],
     statusM: ['Casado', 'Solteiro', 'Divorciado'],
@@ -181,12 +178,15 @@ export default defineComponent({
       username: '',
     },
   }),
-//  async fetch({ store }: any) {
-//     await store.dispatch('roles/fetchItems')
-//   },
-//   created(){
-//     console.log(this.roles)
-//   },
+  async fetchProject({ store }: any) {
+    await store.dispatch('projects/fetchItems')
+  },
+  //  async fetch({ store }: any) {
+  //     await store.dispatch('roles/fetchItems')
+  //   },
+  //   created(){
+  //     console.log(this.roles)
+  //   },
   computed: {
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
@@ -204,8 +204,10 @@ export default defineComponent({
     // }
   },
   methods: {
-    handleSubmit() {
+    handleSubmit(this: any) {
       this.users.projectId = this.selectedProject.id
+      this.users.roles[0] = this.rol
+      console.log(this.users)
       this.$store
         .dispatch('users/createItem', {
           data: this.users,

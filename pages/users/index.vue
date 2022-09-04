@@ -126,6 +126,11 @@ export default defineComponent({
       page: 0,
       name: '',
     },
+    projectUser:{
+      id:'',
+      name:'',
+      value:'',
+    },
     data: [],
     selectedUser: {
       id:'',
@@ -151,9 +156,19 @@ export default defineComponent({
         title: 'USER',
         class: 'whitespace-no-wrap',
       },
+      // {
+      //   key: 'project',
+      //   title: 'PROJECTO',
+      //   class: 'whitespace-no-wrap',
+      // },
+       {
+        key: 'fullName',
+        title: 'Nome',
+        class: 'whitespace-no-wrap',
+      },
       {
-        key: 'project',
-        title: 'PROJECTO',
+        key: 'email',
+        title: 'E-mail',
         class: 'whitespace-no-wrap',
       },
       {
@@ -182,11 +197,14 @@ export default defineComponent({
     },
 
     goToEdit(user: any) {
+      // this.projectUser.id = user.project.id
+      // this.projectUser.value = user.project.id
+      // this.projectUser.name = user.project.projectName
+      // user.project = this.projectUser
       this.$router.push({
         name: 'users-index-id-edit',
         params: { user: user },
       })
-      console.log(user)
     },
     deleteUser(user: any) {
       this.selectedUser = user || {}

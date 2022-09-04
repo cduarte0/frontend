@@ -98,13 +98,13 @@ export default {
       dateEnd: "",
       dateStart: "",
       localImplementation: "",
-      status: "",
+      status: "Active",
       typeCurrency: "",
     },
   }),
 
   methods: {
-    handleSubmit() {
+    handleSubmit(this: any) {
       this.$store
         .dispatch('projects/createItem', {
           data: this.project,

@@ -58,7 +58,7 @@ export default {
     },
     redirect: {
       login: '/auth/login',
-      home: '/users',
+      home: '/projects',
     },
     plugins: ['~/plugins/authRefreshToken.js'],
   },

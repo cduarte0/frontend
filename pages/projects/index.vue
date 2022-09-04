@@ -98,22 +98,6 @@
                 >
                   <ViewOutline/>
                 </div>
-                <div
-                  class="
-                    flex
-                    w-8
-                    h-8
-                    justify-items-center
-                    p-2
-                    rounded-sm
-                    bg-red-500
-                    text-white
-                    cursor-pointer
-                  "
-                  @click="deleteProject(project)"
-                >
-                  <delete-outline />
-                </div>
               </div>
             </template>
           </Table>
@@ -133,7 +117,7 @@ import TextInput from "~/components/common/inputs/TextInput.vue";
 import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
-import DeleteOutline from "~/assets/icons/delete_outline.vue";
+// import DeleteOutline from "~/assets/icons/delete_outline.vue";
 import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
@@ -146,13 +130,14 @@ export default defineComponent({
     AddUserIcon,
     Table,
     EditOutline,
-    DeleteOutline,
+    // DeleteOutline,
   },
   data: () => ({
     filters: {
       page: 0,
       name: '',
     },
+    date: new Date(),
     data: [],
     selectedProjects: {},
     projectHeaders: [
@@ -209,6 +194,9 @@ export default defineComponent({
     },
 
     goToEdit(project: any) {
+      // project.dateStart = project.dateStart[0]+'/'+project.dateStart[1]+'/'+project.dateStart[2]
+      console.log(project.dateStart)
+      const d = Date.parse(project.dateStart)
       this.$router.push({
         name: "projects-index-id-edit",
         params: { project: project},

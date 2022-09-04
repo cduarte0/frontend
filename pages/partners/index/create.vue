@@ -77,7 +77,7 @@ export default {
   }),
 
   methods: {
-    handleSubmit() {
+    handleSubmit(this: any) {
       this.$store
         .dispatch('partners/createItem', {
           data: this.partner,

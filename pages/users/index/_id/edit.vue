@@ -3,6 +3,7 @@
     <Modal
       :title="'Editar funcionario'"
       size="xl"
+      :loading="$wait.waiting('users.update.index')"
       @close="$router.push({ name: 'users' })"
     >
       <div class="grid grid-cols-3 gap-4 space-y-px w-max">
@@ -10,11 +11,11 @@
           v-model="user.username"
           label="Username"
           placeholder="Username"
-          class="col-span-3"
+          class=""
           required
         />
         <TextInput
-          v-model="user.name"
+          v-model="user.fullName"
           label="Nome"
           placeholder="Nome"
           class=""
@@ -37,14 +38,15 @@
         <TextInput
           v-model="user.address"
           label="Endereco"
-          placeholder="Email"
+          placeholder="Eduardo Mondlane"
           class=""
           required
         />
         <SelectInput
-          v-model="user.role"
+          v-model="user.roles"
           label="Tipo de utilizador"
           placeholder=""
+          :items="role"
           class=""
           required
         />
@@ -52,38 +54,23 @@
           v-model="user.civilStatus"
           label="Estado Civil"
           placeholder=""
-          :items="roleOptions"
+          :items="statusM"
           class=""
           required
         />
-        <SelectInput
-          v-model="user.role"
-          label="Categoria"
-          placeholder=""
-          :items="roleOptions"
-          class=""
-          required
-        />
-        <SelectInput
-          v-model="user.department"
-          label="Departamento"
-          :items="departmentOptions"
-          placeholder=""
-          class=""
-          required
-        />
-        <SelectInput
-          v-model="user.department"
-          label="Projecto"
-          :items="departmentOptions"
-          placeholder=""
-          class=""
-          required
-        />
-        <TextInput label="Senha" placeholder="Senha" class="" required />
         <TextInput
-          label="Repetir senha"
-          placeholder="Repetir senha"
+          v-model="user.dataEnd"
+          type="date"
+          label="Fim do contrato"
+          placeholder=""
+          class=""
+          required
+        />
+        <SelectInput
+          v-model="user.projectId"
+          label="Projecto"
+          placeholder=""
+          :items="projects"
           class=""
           required
         />
@@ -101,7 +88,7 @@
             label="Cancelar"
             variant="white"
             size="large"
-            @close="$router.push({ name: 'users' })"
+            @click.native="$router.push({ name: 'users' })"
           />
         </div>
       </template>
@@ -110,13 +97,14 @@
 </template>
 
 <script lang="ts">
-import Modal from "~/components/common/misc/Modal.vue";
-import AppButton from "~/components/common/misc/AppButton.vue";
-import TextInput from "~/components/common/inputs/TextInput.vue";
-import SelectInput from "~/components/common/inputs/SelectInput.vue";
+import Modal from '~/components/common/misc/Modal.vue'
+import AppButton from '~/components/common/misc/AppButton.vue'
+import TextInput from '~/components/common/inputs/TextInput.vue'
+import SelectInput from '~/components/common/inputs/SelectInput.vue'
 
 export default {
   components: { Modal, AppButton, TextInput, SelectInput },
+  // @ts-ignore
   asyncData({ params, redirect }) {
     if (!params.user) {
       redirect('/users')
@@ -126,26 +114,46 @@ export default {
       user,
     }
   },
-
   data: () => ({
-    roleOptions: [
-      { value: "ADMIN", name: "Administrador" },
-      { value: "MANAGER", name: "Gestor" },
-      { value: "USER", name: "Utilizador" },
-    ],
-    departmentOptions: [
-      { id: 1, value: "BAU_SEDE", name: "BAU (SEDE)" },
-      { id: 2, value: "SLPS", name: "SLPS" },
-      { id: 3, value: "BAU_MP", name: "BAU-MP" },
-      { id: 4, value: "BAU_CM", name: "BAU-CM" },
-      { id: 5, value: "ADMIN", name: "Admin" },
-      { id: 6, value: "BAU_TESTE", name: "BAU-TESTE" },
-    ],
+    role: ['Administrador', 'Gestor', 'Normal'],
+    statusM: ['Casado', 'Solteiro', 'Divorciado'],
   }),
+  computed: {
+    projects(this: any) {
+      return Object.values(this.$store.state.projects.all).map((item: any) => ({
+        id: item.id,
+        name: item.projectName,
+        value: item.id,
+      }))
+    },
+  },
 
   methods: {
     handleSubmit() {
+      this.$store.dispatch('users/updateItem', {
+        config: {
+          // @ts-ignore
+              URL: `/users/${this.user.id}`,
+            },
+            data: { ...(this as any).user },
+            noStoreUpdate: true,
+      })
+      .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'Os dados do utilizador foram atuaizados',
+          })
+          this.$store.dispatch('users/fetchItems')
+          this.$router.push({ name: 'users' })
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro, problemas ao atualizar dados do utilizador.',
+          })
+        })
+     
     },
   },
-};
+}
 </script>

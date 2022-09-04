@@ -3,6 +3,7 @@
     <Modal
       :title="'Editar projecto'"
       size="xl"
+      :loading="$wait.waiting('projects.update.index')"
       @close="$router.push({ name: 'projects' })"
     >
       <div class="grid grid-cols-2 gap-3 space-y-px w-max">
@@ -44,18 +45,17 @@
           required
         />
         <TextInput
-          v-model="project.dateStart"
-          type="date"
-          label="Data de inicio"
-          placeholder="Data de inicio"
-          class=""
-          required
-        />
-        <TextInput
           v-model="project.dateEnd"
           type="date"
           label="Data final"
           placeholder="Data final"
+          class=""
+          required
+        />
+        <TextInput
+          v-model="project.status"
+          label="Estado do projecto"
+          placeholder=""
           class=""
           required
         />
@@ -89,7 +89,7 @@ import SelectInput from "~/components/common/inputs/SelectInput.vue";
 
 export default {
   components: { Modal, AppButton, TextInput, SelectInput },
-
+  // @ts-ignore
   asyncData({ params, redirect }) {
     if (!params.project) {
       redirect('/projects')
@@ -102,24 +102,28 @@ export default {
 
   methods: {
     handleSubmit() {
-    //   this.$store
-    //     .dispatch('projects/createItem', {
-    //       data: this.project,
-    //     })
-    //     .then(() => {
-    //       this.$store.dispatch('ui/pushNotification', {
-    //         type: 'success',
-    //         message: 'Projecto criado com sucesso',
-    //       })
-    //       this.$store.dispatch('projects/fetchItems')
-    //       this.$router.push({name: 'projects'})
-    //     })
-    //     .catch(() => {
-    //       this.$store.dispatch('ui/pushNotification', {
-    //         type: 'error',
-    //         message: 'Erro ao criar projecto, por favor tente novamente.',
-    //       })
-    //     })
+      this.$store
+        .dispatch('projects/updateItem', {
+        config: {
+              URL: `/users/${(this as any).project.id}`,
+            },
+            data: { ...(this as any).project },
+            noStoreUpdate: true,
+      })
+        .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'Projecto atualizado',
+          })
+          this.$store.dispatch('projects/fetchItems')
+          this.$router.push({name: 'projects'})
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao atualizar projecto, por favor tente novamente.',
+          })
+        })
     },
   },
 };
