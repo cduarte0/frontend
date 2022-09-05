@@ -28,6 +28,7 @@
             class="w-full"
             :headers="partnersHeaders"
             counter
+            :items="partners"
             actions
           >
             <template #actions="{ value: partner }">
@@ -100,7 +101,7 @@ export default defineComponent({
     selectedPartner: {},
     partnersHeaders: [
       {
-        key: "fullName",
+        key: "companyName",
         title: "Nome Completo",
         class: "whitespace-no-wrap",
       },
@@ -122,16 +123,15 @@ export default defineComponent({
     ],
   }),
 
-//   async fetch({ store }: any) {
-//     await store.dispatch('partnes/fetchItems')
-//   },
+  async fetch({ store }: any) {
+    await store.dispatch('partners/fetchItems')
+  },
 
-//   computed: {
-//     partners(this:any) {
-//       return Object.values(this.$store.state.partners.data);
-//     },
-//   },
-
+  computed: {
+    partners(this:any) {
+      return Object.values(this.$store.state.partners.all);
+    },
+  },
   methods: {
     goToEdit(partner: any) {
       this.$router.push({

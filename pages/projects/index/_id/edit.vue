@@ -101,7 +101,7 @@ export default {
   },
 
   methods: {
-    handleSubmit() {
+    handleSubmit(this:any) {
       this.$store
         .dispatch('projects/updateItem', {
         config: {

@@ -129,7 +129,7 @@ export default {
   },
 
   methods: {
-    handleSubmit() {
+    handleSubmit(this:any) {
       this.$store.dispatch('users/updateItem', {
         config: {
           // @ts-ignore

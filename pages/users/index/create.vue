@@ -93,7 +93,7 @@
             label="Tipo de utilizador"
             placeholder="Selecione uma opcao"
             :items="userType"
-            v-model="rol"
+            v-model="users.roles"
             class=""
             required
           />
@@ -156,7 +156,11 @@ export default defineComponent({
   components: { Modal, AppButton, TextInput, SelectInput },
   data: () => ({
     rol: '',
-    userType: ['Administrador', 'Gestor', 'Normal'],
+    userType: [
+      { id: '', value: 'Admin', name: 'Administrador' },
+      { id: '', value: 'Manager', name: 'Gestor' },
+      { id: '', value: 'Normal', name: 'Normal' },
+    ],
     selectedProject: { id: '', name: '', value: '' },
     gender: ['Masculino', 'Feminino'],
     statusM: ['Casado', 'Solteiro', 'Divorciado'],
@@ -174,7 +178,7 @@ export default defineComponent({
       passwordConfirmation: '',
       phoneNumber: '',
       provenance: '',
-      roles: [''],
+      roles: {},
       username: '',
     },
   }),
@@ -206,8 +210,6 @@ export default defineComponent({
   methods: {
     handleSubmit(this: any) {
       this.users.projectId = this.selectedProject.id
-      this.users.roles[0] = this.rol
-      console.log(this.users)
       this.$store
         .dispatch('users/createItem', {
           data: this.users,
@@ -218,7 +220,7 @@ export default defineComponent({
             message: 'Utilizador criado com sucesso',
           })
           this.$store.dispatch('users/fetchItems')
-          this.$router.push({name: 'users'})
+          this.$router.push({ name: 'users' })
         })
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {

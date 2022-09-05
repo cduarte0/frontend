@@ -7,7 +7,7 @@
     >
       <div class="grid grid-cols-2 gap-3 space-y-px w-max">
         <TextInput
-          v-model="partner.fullName"
+          v-model="partner.companyName"
           label="Nome do completo"
           placeholder="Nome do completo"
           class="col-span-2"
@@ -17,7 +17,7 @@
           v-model="partner.nuit"
           label="Nuit"
           placeholder="Nuit"
-          type = "number"
+          type="number"
           class=""
           required
         />
@@ -35,6 +35,14 @@
           class=""
           required
         />
+        <SelectInput
+          label="Projecto"
+          placeholder="Selecione uma opcao"
+          :items="projects"
+          v-model="selectedProject"
+          class=""
+          required
+        />
       </div>
       <template #actions>
         <div class="flex items-center space-x-4">
@@ -42,6 +50,7 @@
             class="flex text-white w-full h-10"
             label="Salvar"
             variant="green"
+            :loading="false"
             @click.native="handleSubmit"
           />
           <AppButton
@@ -58,26 +67,37 @@
 </template>
 
 <script lang="ts">
-import Modal from "~/components/common/misc/Modal.vue";
-import AppButton from "~/components/common/misc/AppButton.vue";
-import TextInput from "~/components/common/inputs/TextInput.vue";
-import SelectInput from "~/components/common/inputs/SelectInput.vue";
+import Modal from '~/components/common/misc/Modal.vue'
+import AppButton from '~/components/common/misc/AppButton.vue'
+import TextInput from '~/components/common/inputs/TextInput.vue'
+import SelectInput from '~/components/common/inputs/SelectInput.vue'
 
 export default {
   components: { Modal, AppButton, TextInput, SelectInput },
 
   data: () => ({
     partner: {
-       fullName: '',
-       nuit: '',
-       address: '',
-       email: '',
-       projectId: '',
+      companyName: '',
+      nuit: '',
+      address: '',
+      email: '',
+      project: '',
     },
+    selectedProject: { id: '', name: '', value: '' },
   }),
+  computed: {
+    projects(this: any) {
+      return Object.values(this.$store.state.projects.all).map((item: any) => ({
+        id: item.id,
+        name: item.projectName,
+        value: item.id,
+      }))
+    },
+  },
 
   methods: {
     handleSubmit(this: any) {
+      this.partner.project = this.selectedProject.id
       this.$store
         .dispatch('partners/createItem', {
           data: this.partner,
@@ -87,8 +107,8 @@ export default {
             type: 'success',
             message: 'Parceiro adicionado com sucesso',
           })
-          this.$store.dispatch('projects/fetchItems')
-          this.$router.push({name: 'partners'})
+          this.$store.dispatch('partners/fetchItems')
+          this.$router.push({ name: 'partners' })
         })
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
@@ -98,5 +118,5 @@ export default {
         })
     },
   },
-};
+}
 </script>
