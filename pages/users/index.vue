@@ -67,6 +67,22 @@
                     justify-items-center
                     p-2
                     rounded-sm
+                    bg-green-500
+                    text-white
+                    cursor-pointer
+                  "
+                  @click="userDetail(user)"
+                >
+                  <ViewOutline/>
+                </div>
+                <div
+                  class="
+                    flex
+                    w-8
+                    h-8
+                    justify-items-center
+                    p-2
+                    rounded-sm
                     bg-red-500
                     text-white
                     cursor-pointer
@@ -107,11 +123,13 @@ import Table from '~/components/common/misc/Table.vue'
 import EditOutline from '~/assets/icons/edit_outline.vue'
 import DeleteOutline from '~/assets/icons/delete_outline.vue'
 import DeletModal from '~/components/common/misc/DeletModal.vue'
+import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
   name: 'Index',
   components: {
     DeletModal,
+    ViewOutline,
     Page,
     AppButton,
     TextInput,
@@ -197,14 +215,18 @@ export default defineComponent({
     },
 
     goToEdit(user: any) {
-      // this.projectUser.id = user.project.id
-      // this.projectUser.value = user.project.id
-      // this.projectUser.name = user.project.projectName
-      // user.project = this.projectUser
       this.$router.push({
         name: 'users-index-id-edit',
         params: { user: user },
       })
+    },
+    userDetail(user: any){
+      user.map((item: any) => ({
+        id: item.id,
+        fullName: item.fullName,
+        projectName: item.project.projectName,
+        email: item.email
+      }));
     },
     deleteUser(user: any) {
       this.selectedUser = user || {}

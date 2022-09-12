@@ -1,37 +1,41 @@
 <template>
   <div>
-    <Page class="py-10 px-8" title="Parceiros" sub-title="Lista de parceiros">
+    <page
+      class="py-10 px-8"
+      title="Transporte"
+      sub-title="Lista de requisicoes"
+    >
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
           <div>
             <AppButton
               class="flex text-white"
-              label="Adicionar"
+              label="Requisitar"
               variant="green"
               icon
               size="large"
               @click.native="
                 $router.push({
-                  name: 'partners-index-create',
+                  name: 'transport-index-create',
                 })
               "
             >
-              <template #icon>
-                <AddUserIcon />
-              </template>
             </AppButton>
           </div>
         </div>
         <div class="flex w-full">
           <Table
             class="w-full"
-            :headers="partnersHeaders"
+            :headers="requestHeaders"
+            :items="transportRequests"
             counter
-            :items="partners"
             actions
           >
-            <template #actions="{ value: partner }">
+            <template #name="{ value: transportRequest }">
+              <span class="flex font-semibold">{{ transportRequest.name }}</span>
+            </template>
+            <template #actions="{ value: transportRequest }">
               <div class="flex flex-wrap items-center space-x-2">
                 <div
                   class="
@@ -45,7 +49,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="goToEdit(partner)"
+                  @click="goToEdit(transportRequest)"
                 >
                   <edit-outline />
                 </div>
@@ -57,13 +61,13 @@
                     justify-items-center
                     p-2
                     rounded-sm
-                    bg-red-500
+                    bg-green-500
                     text-white
                     cursor-pointer
                   "
-                  @click="deleteUser(partner)"
+                  @click="requestDetail(transportRequest)"
                 >
-                  <delete-outline />
+                  <ViewOutline/>
                 </div>
               </div>
             </template>
@@ -76,6 +80,7 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent } from "@nuxtjs/composition-api";
 import Page from "~/components/common/misc/Page.vue";
 import AppButton from "~/components/common/misc/AppButton.vue";
@@ -83,64 +88,87 @@ import TextInput from "~/components/common/inputs/TextInput.vue";
 import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
-import DeleteOutline from "~/assets/icons/delete_outline.vue";
+// import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
   name: "Index",
   components: {
+    ViewOutline,
     Page,
     AppButton,
     TextInput,
     AddUserIcon,
     Table,
     EditOutline,
-    DeleteOutline,
+    // DeleteOutline,
   },
   data: () => ({
-    data:[],
-    selectedPartner: {},
-    partnersHeaders: [
+    filters: {
+      page: 0,
+      name: '',
+    },
+    date: new Date(),
+    data: [],
+    selectedRequest: {},
+    requestHeaders: [
       {
-        key: "companyName",
-        title: "Nome Completo",
+        key: "logistic",
+        title: "Requisitante",
         class: "whitespace-no-wrap",
       },
       {
-        key: "projectName",
-        title: "Nome do Projecto",
-        class: "whitespace-no-wrap"
+        key: "project.projectName",
+        title: "Projecto",
+        class: "whitespace-no-wrap",
       },
+    //   {
+    //     key: "dateStart",
+    //     title: "inicio do projecto",
+    //     class: "whitespace-no-wrap",
+    //   },
+    //   {
+    //     key: "dateEnd",
+    //     title: "fim do projecto",
+    //     class: "whitespace-no-wrap",
+    //   },
+    //   {
+    //     key: "budget",
+    //     title: "Orcamento",
+    //     class: "whitespace-no-wrap",
+    //   },
       {
-        key: "email",
-        title: "e-mail",
+        key: "destiny",
+        title: "Destino",
         class: "whitespace-no-wrap",
       },
     ],
   }),
-
   async fetch({ store }: any) {
-    await store.dispatch('partners/fetchItems')
+    await store.dispatch('transportation/fetchItems')
   },
 
   computed: {
-    partners(this:any) {
-      return Object.values(this.$store.state.partners.all).map((item: any) => ({
-        id: item.id,
-        companyName: item.companyName,
-        projectName: item.projects[0].projectName,
-        email: item.email
-      }));
+    transportRequests(this: any) {
+      return Object.values(
+        this.$store.state.transports.all
+      )
     },
+    
   },
+
   methods: {
-    goToEdit(partner: any) {
-      this.$router.push({
-        name: "partners-index-id-edit",
-        params: { partner: partner },
-      });
-      console.log(partner);
+    fetchTransportRequest() {
+      this.$store.dispatch('transportation/fetchItems', {
+        params: { ...this.filters },
+      })
     },
-    deleteUser(partner: any) {
+
+    goToEdit(request: any) {
+      this.$router.push({
+        name: "transport-index-id-edit",
+        params: { request: request},
+      });
     },
   },
 });

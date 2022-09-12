@@ -10,9 +10,16 @@
           v-model="project.projectName"
           label="Nome do projecto"
           placeholder="Nome do projecto"
-          class="col-span-2"
+          class=""
           required
         />
+        <TextInput
+          v-model="project.projectCode"
+          label="Codigo do Projecto"
+          placeholder="Codigo"
+          class=""
+          required
+        />        
         <TextInput
           v-model="project.localImplementation"
           label="Local de implementacao"
@@ -100,6 +107,7 @@ export default {
       localImplementation: "",
       status: "Active",
       typeCurrency: "",
+      projectCode: '',
     },
   }),
 
