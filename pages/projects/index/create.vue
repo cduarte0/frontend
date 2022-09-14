@@ -19,7 +19,7 @@
           placeholder="Codigo"
           class=""
           required
-        />        
+        />
         <TextInput
           v-model="project.localImplementation"
           label="Local de implementacao"
@@ -89,28 +89,25 @@
 </template>
 
 <script lang="ts">
-import Modal from "~/components/common/misc/Modal.vue";
-import AppButton from "~/components/common/misc/AppButton.vue";
-import TextInput from "~/components/common/inputs/TextInput.vue";
-import SelectInput from "~/components/common/inputs/SelectInput.vue";
-
+import Modal from '~/components/common/misc/Modal.vue'
+import AppButton from '~/components/common/misc/AppButton.vue'
+import TextInput from '~/components/common/inputs/TextInput.vue'
+import SelectInput from '~/components/common/inputs/SelectInput.vue'
 export default {
   components: { Modal, AppButton, TextInput, SelectInput },
-
   data: () => ({
     project: {
-      balanceAvailable: "",
-      budget: "",
-      projectName: "",
-      dateEnd: "",
-      dateStart: "",
-      localImplementation: "",
-      status: "Active",
-      typeCurrency: "",
+      balanceAvailable: '',
+      budget: '',
+      projectName: '',
+      dateEnd: '',
+      dateStart: '',
+      localImplementation: '',
+      status: 'Active',
+      typeCurrency: '',
       projectCode: '',
     },
   }),
-
   methods: {
     handleSubmit(this: any) {
       this.$store
@@ -123,7 +120,7 @@ export default {
             message: 'Projecto criado com sucesso',
           })
           this.$store.dispatch('projects/fetchItems')
-          this.$router.push({name: 'projects'})
+          this.$router.push({ name: 'projects' })
         })
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
@@ -133,5 +130,5 @@ export default {
         })
     },
   },
-};
+}
 </script>

@@ -48,20 +48,6 @@
                 to="/partners"
               >
                 <span>Parceiros</span>
-                <!--<span
-                  class="
-                    flex
-                    justify-center
-                    items-center
-                    ml-auto
-                    bg-indigo-500
-                    w-6
-                    h-6
-                    text-xs
-                    rounded-full
-                  "
-                  >4</span
-                >-->
               </nuxt-link>
             </li>
             <li>
@@ -99,7 +85,7 @@
                 <span>Projectos</span>
               </nuxt-link>
             </li>
-            <li>
+            <!--<li>
               <nuxt-link
                 class="
                   flex
@@ -115,8 +101,79 @@
               >
                 <span>Transporte</span>
               </nuxt-link>
-            </li>
+            </li>-->
           </ul>
+          <div class="">
+            <div class="flex flex-col">
+              <div
+                class="
+                  flex
+                  items-center
+                  pl-3
+                  py-3
+                  pr-2
+                  text-gray-50
+                  hover:bg-red-500
+                  rounded
+                  cursor-pointer
+                "
+                @click="hiddenSettings = !hiddenSettings"
+              >
+                <span class="select-none">Transporte</span>
+
+                <!--<span class="inline-block ml-auto">
+                  <ArrowDownIcon
+                    class="w-3 h-3 transform duration-500"
+                    :class="{
+                      'rotate-0': hiddenSettings,
+                      'rotate-180': !hiddenSettings,
+                    }"
+                  />
+                </span>-->
+              </div>
+              <ul
+                class="pl-3 transition delay-300 duration-500 ease-in-out"
+                :hidden="hiddenSettings"
+              >
+                <li>
+                  <nuxt-link
+                    class="
+                      flex
+                      items-center
+                      pl-5
+                      py-1
+                      pr-4
+                      text-gray-50
+                      hover:bg-red-500
+                      rounded
+                    "
+                    to="/transport/request"
+                  >
+                    <!--<archive-folder class="inline-block mr-3" />-->
+                    <span>Requisições</span>
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link
+                    class="
+                      flex
+                      items-center
+                      pl-5
+                      py-1
+                      pr-4
+                      text-gray-50
+                      hover:bg-red-500
+                      rounded
+                    "
+                    to="/transport/carrier"
+                  >
+                    <!--<archive-folder class="inline-block mr-3" />-->
+                    <span>Transportadoras</span>
+                  </nuxt-link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </nav>
     </div>
@@ -149,29 +206,29 @@ import BurgerMenu from '~/assets/icons/burger-menu.vue'
 export default defineComponent({
   name: 'Sidebar',
   components: {
-//     ExitIcon,
-//     ArchiveFolder,
-//     PeopleAltIcon,
-//     ArrowDownIcon,
-//     PersonFrameIcon,
-//     CarClusterIcon,
-//     OpenBookIcon,
+    //     ExitIcon,
+    //     ArchiveFolder,
+    //     PeopleAltIcon,
+    //     ArrowDownIcon,
+    //     PersonFrameIcon,
+    //     CarClusterIcon,
+    //     OpenBookIcon,
     BurgerMenu,
-//     ConfigurationIcon,
-//     Scheduling,
-//     Domain,
-//     Assignment,
-//     ContactPhone,
+    //     ConfigurationIcon,
+    //     Scheduling,
+    //     Domain,
+    //     Assignment,
+    //     ContactPhone,
   },
-//   data: () => ({
-//     modules: [],
-//     hiddenSettings: true,
-//   }),
-//   methods: {
-//     handleLogout(action: any) {
-//       action.preventDefault()
-//       //this.$auth.logout()
-//     },
-//   },
+  data: () => ({
+    modules: [],
+    hiddenSettings: true,
+  }),
+  //   methods: {
+  //     handleLogout(action: any) {
+  //       action.preventDefault()
+  //       //this.$auth.logout()
+  //     },
+  //   },
 })
 </script>

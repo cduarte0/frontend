@@ -182,9 +182,6 @@ export default defineComponent({
       username: '',
     },
   }),
-  async fetchProject({ store }: any) {
-    await store.dispatch('projects/fetchItems')
-  },
   //  async fetch({ store }: any) {
   //     await store.dispatch('roles/fetchItems')
   //   },
@@ -193,6 +190,7 @@ export default defineComponent({
   //   },
   computed: {
     projects(this: any) {
+      this.$store.dispatch('projects/fetchItems')
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
         id: item.id,
         name: item.projectName,
