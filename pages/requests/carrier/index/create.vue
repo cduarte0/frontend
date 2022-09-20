@@ -3,7 +3,7 @@
     <Modal
       :title="'Adicionar transportadora'"
       size="xl"
-      @close="$router.push({ name: 'transport-carrier' })"
+      @close="$router.push({ name: 'requests-carrier' })"
     >
       <div class="grid grid-cols-2 gap-4 space-y-px w-max">
         <TextInput
@@ -55,7 +55,7 @@
             label="Cancelar"
             variant="white"
             size="large"
-            @click.native="$router.push({ name: 'transport-carrier' })"
+            @click.native="$router.push({ name: 'requests-carrier' })"
           />
         </div>
       </template>
@@ -90,7 +90,7 @@ export default defineComponent({
             message: 'Ttransportadora cadastrada com sucesso',
           })
           this.$store.dispatch('carriers/fetchItems')
-          this.$router.push({ name: 'transport-carrier' })
+          this.$router.push({ name: 'requests-carrier' })
         })
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {

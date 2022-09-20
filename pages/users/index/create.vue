@@ -92,7 +92,7 @@
           <SelectInput
             label="Tipo de utilizador"
             placeholder="Selecione uma opcao"
-            :items="userType"
+            :items="roles"
             v-model="users.roles"
             class=""
             required
@@ -182,28 +182,24 @@ export default defineComponent({
       username: '',
     },
   }),
-  //  async fetch({ store }: any) {
-  //     await store.dispatch('roles/fetchItems')
-  //   },
-  //   created(){
-  //     console.log(this.roles)
-  //   },
+   async fetch({ store }: any) {
+      await store.dispatch('roles/fetchItems')
+    },
   computed: {
     projects(this: any) {
-      this.$store.dispatch('projects/fetchItems')
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
         id: item.id,
         name: item.projectName,
         value: item.id,
       }))
     },
-    // roles(this: any){
-    //   return Object.values(this.$store.state.roles.all).map((item: any) => ({
-    //     id: item.id,
-    //     name: item.name,
-    //     value: item.description,
-    //   }))
-    // }
+    roles(this: any){
+      return Object.values(this.$store.state.roles.all).map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        value: item.description,
+      }))
+    }
   },
   methods: {
     handleSubmit(this: any) {

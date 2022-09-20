@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Page class="py-10 px-8" title="Parceiros" sub-title="Lista de parceiros">
+    <Page class="py-10 px-8" title="Transportadoras" sub-title="Lista de trasportadoras">
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
@@ -13,7 +13,7 @@
               size="large"
               @click.native="
                 $router.push({
-                  name: 'partners-index-create',
+                  name: 'requests-carrier-index-create',
                 })
               "
             >
@@ -26,12 +26,12 @@
         <div class="flex w-full">
           <Table
             class="w-full"
-            :headers="partnersHeaders"
+            :headers="carriersHeaders"
             counter
-            :items="partners"
+            :items="carriers"
             actions
           >
-            <template #actions="{ value: partner }">
+            <template #actions="{ value: carrier }">
               <div class="flex flex-wrap items-center space-x-2">
                 <div
                   class="
@@ -45,7 +45,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="goToEdit(partner)"
+                  @click="goToEdit(carrier)"
                 >
                   <edit-outline />
                 </div>
@@ -61,7 +61,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="deleteUser(partner)"
+                  @click="deleteUser(carrier)"
                 >
                   <delete-outline />
                 </div>
@@ -69,13 +69,6 @@
             </template>
           </Table>
         </div>
-        <div class="flex">
-        <pagination
-          :value="meta.currentPage + 1"
-          :total-rows="meta.totalRows"
-          :per-page="meta.perPage"
-        />
-      </div>
       </div>
       <nuxt-child />
     </page>
@@ -91,7 +84,6 @@ import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
-import Pagination from '~/components/common/misc/Pagination.vue'
 
 export default defineComponent({
   name: "Index",
@@ -103,56 +95,47 @@ export default defineComponent({
     Table,
     EditOutline,
     DeleteOutline,
-    Pagination,
   },
   data: () => ({
     data:[],
-    selectedPartner: {},
-    partnersHeaders: [
+    selectedCarrier: {},
+    carriersHeaders: [
       {
-        key: "companyName",
+        key: "fullName",
         title: "Nome Completo",
         class: "whitespace-no-wrap",
       },
       {
-        key: "projectName",
-        title: "Nome do Projecto",
+        key: "email",
+        title: "E-mail",
         class: "whitespace-no-wrap"
       },
       {
-        key: "email",
-        title: "e-mail",
+        key: "address",
+        title: "Endereco",
         class: "whitespace-no-wrap",
       },
     ],
   }),
 
   async fetch({ store }: any) {
-    await store.dispatch('partners/fetchItems')
+    await store.dispatch('carriers/fetchItems')
   },
 
   computed: {
-    meta(this:any) {
-     return this.$store.state.partners.pagination
-    },
-    partners(this:any) {
-      return Object.values(this.$store.state.partners.all).map((item: any) => ({
-        id: item.id,
-        companyName: item.companyName,
-        projectName: item.projects[0].projectName,
-        email: item.email
-      }));
+    carriers(this:any) {
+      return Object.values(this.$store.state.carriers.all)
     },
   },
   methods: {
-    goToEdit(partner: any) {
+    goToEdit(carrier: any) {
       this.$router.push({
-        name: "partners-index-id-edit",
-        params: { partner: partner },
+        name: "requests-carrier-index-id-edit",
+        params: { carrier: carrier },
       });
-      console.log(partner);
+      console.log(carrier);
     },
-    deleteUser(partner: any) {
+    deleteUser(carrier: any) {
     },
   },
 });

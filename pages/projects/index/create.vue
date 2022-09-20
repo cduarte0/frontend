@@ -10,7 +10,7 @@
           v-model="project.projectName"
           label="Nome do projecto"
           placeholder="Nome do projecto"
-          class=""
+          class="col-span-2"
           required
         />
         <TextInput
@@ -21,17 +21,25 @@
           required
         />
         <TextInput
+          v-model="project.accountNumberProject"
+          label="Numero de conta"
+          placeholder=""
+          type="number"
+          class=""
+          required
+        />
+        <TextInput
           v-model="project.localImplementation"
-          label="Local de implementacao"
-          placeholder="Local de implementacao"
+          label="Local de implementação"
+          placeholder="Local de implementação"
           class=""
           required
         />
         <TextInput
           v-model="project.budget"
           type="number"
-          label="Orcamento"
-          placeholder="Orcamento"
+          label="Orçamento"
+          placeholder="Orçamento"
           class=""
           required
         />
@@ -43,10 +51,11 @@
           class=""
           required
         />
-        <TextInput
-          v-model="project.typeCurrency"
+        <SelectInput
           label="Tipo de moeda"
-          placeholder="Tipo de moeda"
+          placeholder="Selecione uma opção"
+          :items="currencyType"
+          v-model="project.typeCurrency"
           class=""
           required
         />
@@ -96,6 +105,15 @@ import SelectInput from '~/components/common/inputs/SelectInput.vue'
 export default {
   components: { Modal, AppButton, TextInput, SelectInput },
   data: () => ({
+    currencyType: [
+      { id: 1, name: 'MZN', value: 'MZN' },
+      { id: 2, name: 'USD', value: 'USD' },
+      { id: 3, name: 'Real', value: 'R$' },
+      { id: 4, name: 'Libra', value: 'Libra' },
+      { id: 5, name: 'RAND', value: 'RAND' },
+      { id: 6, name: 'Yen', value: 'Yen' },
+      { id: 7, name: 'EURO', value: 'EURO' },
+    ],
     project: {
       balanceAvailable: '',
       budget: '',
@@ -106,6 +124,7 @@ export default {
       status: 'Active',
       typeCurrency: '',
       projectCode: '',
+      accountNumberProject: '',
     },
   }),
   methods: {

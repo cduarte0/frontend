@@ -3,7 +3,7 @@
     <Modal
       :title="'Solicitação de transporte'"
       size="xl"
-      @close="$router.push({ name: 'transport-request' })"
+      @close="$router.push({ name: 'requests-transport' })"
     >
       <div class="grid grid-cols-3 gap-3 space-y-px w-max">
         <SelectInput
@@ -120,7 +120,7 @@
             label="Cancelar"
             variant="white"
             size="large"
-            @click.native="$router.push({ name: 'transport-request' })"
+            @click.native="$router.push({ name: 'requests-transport' })"
           />
         </div>
       </template>
@@ -194,7 +194,7 @@ export default {
             message: 'Solicitação efectuada',
           })
           this.$store.dispatch('transportation/fetchItems')
-          this.$router.push({ name: 'transport-request' })
+          this.$router.push({ name: 'requests-transport' })
         })
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {

@@ -1,37 +1,33 @@
 <template>
   <div>
-    <Page class="py-10 px-8" title="Parceiros" sub-title="Lista de parceiros">
+    <Page class="py-10 px-8" title="Pagamentos" sub-title="Lista de requisicoes">
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
           <div>
             <AppButton
               class="flex text-white"
-              label="Adicionar"
+              label="Requisitar"
               variant="green"
               icon
               size="large"
               @click.native="
                 $router.push({
-                  name: 'partners-index-create',
+                  name: 'requests-payments-index-create',
                 })
               "
-            >
-              <template #icon>
-                <AddUserIcon />
-              </template>
-            </AppButton>
+            />
           </div>
         </div>
         <div class="flex w-full">
           <Table
             class="w-full"
-            :headers="partnersHeaders"
+            :headers="paymentHeaders"
             counter
-            :items="partners"
+            :items="payments"
             actions
           >
-            <template #actions="{ value: partner }">
+            <template #actions="{ value: payment }">
               <div class="flex flex-wrap items-center space-x-2">
                 <div
                   class="
@@ -45,7 +41,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="goToEdit(partner)"
+                  @click="goToEdit(payment)"
                 >
                   <edit-outline />
                 </div>
@@ -61,7 +57,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="deleteUser(partner)"
+                  @click="deleteTdr(payment)"
                 >
                   <delete-outline />
                 </div>
@@ -69,16 +65,9 @@
             </template>
           </Table>
         </div>
-        <div class="flex">
-        <pagination
-          :value="meta.currentPage + 1"
-          :total-rows="meta.totalRows"
-          :per-page="meta.perPage"
-        />
-      </div>
       </div>
       <nuxt-child />
-    </page>
+    </Page>
   </div>
 </template>
 
@@ -91,7 +80,6 @@ import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
-import Pagination from '~/components/common/misc/Pagination.vue'
 
 export default defineComponent({
   name: "Index",
@@ -103,56 +91,50 @@ export default defineComponent({
     Table,
     EditOutline,
     DeleteOutline,
-    Pagination,
   },
   data: () => ({
     data:[],
-    selectedPartner: {},
-    partnersHeaders: [
+    selectedTdr: {},
+    paymentHeaders: [
       {
-        key: "companyName",
-        title: "Nome Completo",
+        key: "name",
+        title: "Termo de referencia",
         class: "whitespace-no-wrap",
       },
       {
-        key: "projectName",
-        title: "Nome do Projecto",
+        key: "createdAt",
+        title: "Data de requisicao",
         class: "whitespace-no-wrap"
       },
       {
-        key: "email",
-        title: "e-mail",
+        key: "totalValue",
+        title: "Valor",
         class: "whitespace-no-wrap",
       },
     ],
   }),
 
   async fetch({ store }: any) {
-    await store.dispatch('partners/fetchItems')
+    await store.dispatch('payments/fetchItems')
   },
 
   computed: {
-    meta(this:any) {
-     return this.$store.state.partners.pagination
-    },
-    partners(this:any) {
-      return Object.values(this.$store.state.partners.all).map((item: any) => ({
-        id: item.id,
-        companyName: item.companyName,
-        projectName: item.projects[0].projectName,
-        email: item.email
-      }));
+    payments(this:any) {
+      return Object.values(this.$store.state.payments.all).map((item: any) => ({
+        createdAt: item.createdAt,
+        name: item.referenceTerm.descriptionTdR,
+        totalValue: item.totalValue
+      }))
     },
   },
   methods: {
-    goToEdit(partner: any) {
+    goToEdit(payment: any) {
       this.$router.push({
-        name: "partners-index-id-edit",
-        params: { partner: partner },
+        name: "requests-payments-index-id-edit",
+        params: { tdr: payment },
       });
-      console.log(partner);
     },
-    deleteUser(partner: any) {
+    deleteTdr(payment: any) {
     },
   },
 });

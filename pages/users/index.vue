@@ -95,6 +95,13 @@
             </template>
           </Table>
         </div>
+        <div class="flex">
+        <pagination
+          :value="meta.currentPage + 1"
+          :total-rows="meta.totalRows"
+          :per-page="meta.perPage"
+        />
+      </div>
       </div>
       <delet-modal
         v-if="showDeleteModal"
@@ -124,6 +131,7 @@ import EditOutline from '~/assets/icons/edit_outline.vue'
 import DeleteOutline from '~/assets/icons/delete_outline.vue'
 import DeletModal from '~/components/common/misc/DeletModal.vue'
 import ViewOutline from "~/assets/icons/view-outline.vue";
+import Pagination from '~/components/common/misc/Pagination.vue'
 
 export default defineComponent({
   name: 'Index',
@@ -137,6 +145,7 @@ export default defineComponent({
     Table,
     EditOutline,
     DeleteOutline,
+    Pagination,
   },
   data: () => ({
     showDeleteModal: false,
@@ -201,6 +210,9 @@ export default defineComponent({
   },
 
   computed: {
+    meta(this:any) {
+     return this.$store.state.users.pagination
+    },
     users(this: any) {
       return Object.values(this.$store.state.users.all)
     },

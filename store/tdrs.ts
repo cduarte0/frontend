@@ -1,5 +1,5 @@
 import { createActions } from '~/utils/index'
-const resource = 'roles'
+const resource = 'tdrs'
 export const state = () => ({
   all: [],
   pagination: {},

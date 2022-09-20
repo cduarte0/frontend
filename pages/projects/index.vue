@@ -96,12 +96,19 @@
                   "
                   @click="projectDetail(project)"
                 >
-                  <ViewOutline/>
+                  <ViewOutline />
                 </div>
               </div>
             </template>
           </Table>
         </div>
+        <div class="flex">
+        <pagination
+          :value="meta.currentPage + 1"
+          :total-rows="meta.totalRows"
+          :per-page="meta.perPage"
+        />
+      </div>
       </div>
       <nuxt-child />
     </page>
@@ -109,19 +116,19 @@
 </template>
 
 <script lang="ts">
-
-import { defineComponent } from "@nuxtjs/composition-api";
-import Page from "~/components/common/misc/Page.vue";
-import AppButton from "~/components/common/misc/AppButton.vue";
-import TextInput from "~/components/common/inputs/TextInput.vue";
-import AddUserIcon from "~/assets/icons/add-user.vue";
-import Table from "~/components/common/misc/Table.vue";
-import EditOutline from "~/assets/icons/edit_outline.vue";
+import { defineComponent } from '@nuxtjs/composition-api'
+import Page from '~/components/common/misc/Page.vue'
+import AppButton from '~/components/common/misc/AppButton.vue'
+import TextInput from '~/components/common/inputs/TextInput.vue'
+import AddUserIcon from '~/assets/icons/add-user.vue'
+import Table from '~/components/common/misc/Table.vue'
+import EditOutline from '~/assets/icons/edit_outline.vue'
 // import DeleteOutline from "~/assets/icons/delete_outline.vue";
-import ViewOutline from "~/assets/icons/view-outline.vue";
+import ViewOutline from '~/assets/icons/view-outline.vue'
+import Pagination from '~/components/common/misc/Pagination.vue'
 
 export default defineComponent({
-  name: "Index",
+  name: 'Index',
   components: {
     ViewOutline,
     Page,
@@ -130,6 +137,7 @@ export default defineComponent({
     AddUserIcon,
     Table,
     EditOutline,
+     Pagination,
     // DeleteOutline,
   },
   data: () => ({
@@ -142,34 +150,19 @@ export default defineComponent({
     selectedProjects: {},
     projectHeaders: [
       {
-        key: "projectName",
-        title: "Nome do Projecto",
-        class: "whitespace-no-wrap",
+        key: 'projectName',
+        title: 'Nome do Projecto',
+        class: 'whitespace-no-wrap',
       },
       {
-        key: "localImplementation",
-        title: "Local de Implementacao",
-        class: "whitespace-no-wrap",
+        key: 'localImplementation',
+        title: 'Implementação',
+        class: 'whitespace-no-wrap',
       },
-    //   {
-    //     key: "dateStart",
-    //     title: "inicio do projecto",
-    //     class: "whitespace-no-wrap",
-    //   },
-    //   {
-    //     key: "dateEnd",
-    //     title: "fim do projecto",
-    //     class: "whitespace-no-wrap",
-    //   },
-    //   {
-    //     key: "budget",
-    //     title: "Orcamento",
-    //     class: "whitespace-no-wrap",
-    //   },
       {
-        key: "status",
-        title: "Estado",
-        class: "whitespace-no-wrap",
+        key: 'status',
+        title: 'Estado',
+        class: 'whitespace-no-wrap',
       },
     ],
   }),
@@ -178,12 +171,12 @@ export default defineComponent({
   },
 
   computed: {
-    projects(this: any) {
-      return Object.values(
-        this.$store.state.projects.all
-      )
+    meta(this:any) {
+     return this.$store.state.projects.pagination
     },
-    
+    projects(this: any) {
+      return Object.values(this.$store.state.projects.all)
+    },
   },
 
   methods: {
@@ -198,10 +191,16 @@ export default defineComponent({
       console.log(project.dateStart)
       const d = Date.parse(project.dateStart)
       this.$router.push({
-        name: "projects-index-id-edit",
-        params: { project: project},
-      });
+        name: 'projects-index-id-edit',
+        params: { project: project },
+      })
+    },
+    projectDetail(project: any) {
+      // this.$router.push({
+      //   name: 'projects-index-id',
+      //   params: { id: project.id },
+      // })
     },
   },
-});
+})
 </script>

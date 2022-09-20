@@ -25,11 +25,11 @@
           lg:w-60
           pt-6
           pb-8
-          bg-red-200
+          bg-red-500
         "
       >
         <div class="px-4 pb-6">
-          <h3 class="mb-2 text-xs uppercase text-gray-900 font-medium">
+          <h3 class="mb-2 text-xs uppercase text-gray-100 font-medium">
             Principais
           </h3>
           <ul class="mb-8 text-sm font-medium">
@@ -42,15 +42,18 @@
                   py-3
                   pr-2
                   text-gray-50
-                  hover:bg-red-500
+                  hover:bg-red-900
                   rounded
                 "
                 to="/partners"
               >
+                <people-alt-icon
+                  class="inline-block mr-3 text-gray-500 fill-current"
+                />
                 <span>Parceiros</span>
               </nuxt-link>
             </li>
-            <li>
+            <li v-if="userType === 'ROLE_ADMIN'">
               <nuxt-link
                 class="
                   flex
@@ -59,11 +62,12 @@
                   py-3
                   pr-4
                   text-gray-50
-                  hover:bg-red-500
+                  hover:bg-red-900
                   rounded
                 "
                 to="/users"
               >
+                <person-frame-icon class="inline-block mr-3 text-gray-500" />
                 <span>Funcionarios</span>
               </nuxt-link>
             </li>
@@ -76,32 +80,15 @@
                   py-3
                   pr-4
                   text-gray-50
-                  hover:bg-red-500
+                  hover:bg-red-900
                   rounded
                 "
                 to="/projects"
               >
-
+                <archive-folder class="inline-block mr-3 text-gray-500" />
                 <span>Projectos</span>
               </nuxt-link>
             </li>
-            <!--<li>
-              <nuxt-link
-                class="
-                  flex
-                  items-center
-                  pl-3
-                  py-3
-                  pr-2
-                  text-gray-50
-                  hover:bg-red-500
-                  rounded
-                "
-                to="/transport"
-              >
-                <span>Transporte</span>
-              </nuxt-link>
-            </li>-->
           </ul>
           <div class="">
             <div class="flex flex-col">
@@ -113,15 +100,16 @@
                   py-3
                   pr-2
                   text-gray-50
-                  hover:bg-red-500
+                  hover:bg-red-900
                   rounded
                   cursor-pointer
                 "
                 @click="hiddenSettings = !hiddenSettings"
               >
-                <span class="select-none">Transporte</span>
+                <open-book-icon class="inline-block mr-3 text-gray-500" />
+                <span class="select-none">Requisições</span>
 
-                <!--<span class="inline-block ml-auto">
+                <span class="inline-block ml-auto">
                   <ArrowDownIcon
                     class="w-3 h-3 transform duration-500"
                     :class="{
@@ -129,7 +117,7 @@
                       'rotate-180': !hiddenSettings,
                     }"
                   />
-                </span>-->
+                </span>
               </div>
               <ul
                 class="pl-3 transition delay-300 duration-500 ease-in-out"
@@ -144,13 +132,13 @@
                       py-1
                       pr-4
                       text-gray-50
-                      hover:bg-red-500
+                      hover:bg-red-900
                       rounded
                     "
-                    to="/transport/request"
+                    to="/requests/transport"
                   >
-                    <!--<archive-folder class="inline-block mr-3" />-->
-                    <span>Requisições</span>
+                    <car-cluster-icon class="inline-block mr-3 text-gray-500" />
+                    <span>Transporte</span>
                   </nuxt-link>
                 </li>
                 <li>
@@ -162,13 +150,49 @@
                       py-1
                       pr-4
                       text-gray-50
-                      hover:bg-red-500
+                      hover:bg-red-900
                       rounded
                     "
-                    to="/transport/carrier"
+                    to="/requests/carrier"
+                  >
+                    <car-cluster-icon class="inline-block mr-3 text-gray-500" />
+                    <span>Transportadoras</span>
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link
+                    class="
+                      flex
+                      items-center
+                      pl-5
+                      py-1
+                      pr-4
+                      text-gray-50
+                      hover:bg-red-900
+                      rounded
+                    "
+                    to="/requests/termReference"
+                  >
+                    <assignment class="inline-block mr-3 text-gray-500" />
+                    <span>Termos</span>
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link
+                    class="
+                      flex
+                      items-center
+                      pl-5
+                      py-1
+                      pr-4
+                      text-gray-50
+                      hover:bg-red-900
+                      rounded
+                    "
+                    to="/requests/payments"
                   >
                     <!--<archive-folder class="inline-block mr-3" />-->
-                    <span>Transportadoras</span>
+                    <span>Pagamentos</span>
                   </nuxt-link>
                 </li>
               </ul>
@@ -183,52 +207,40 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 import BurgerMenu from '~/assets/icons/burger-menu.vue'
-// import OpenBookIcon from '~/assets/icons/open-book.vue'
-// import CarClusterIcon from '~/assets/icons/car-cluster.vue'
-// import PersonFrameIcon from '~/assets/icons/person-frame.vue'
-// import ArrowDownIcon from '~/assets/icons/arrow-down.vue'
-// import PeopleAltIcon from '~/assets/icons/people-alt.vue'
-// import ArchiveFolder from '~/assets/icons/archive-folder.vue'
+import OpenBookIcon from '~/assets/icons/open-book.vue'
+import CarClusterIcon from '~/assets/icons/car-cluster.vue'
+import PersonFrameIcon from '~/assets/icons/person-frame.vue'
+import ArrowDownIcon from '~/assets/icons/arrow-down.vue'
+import PeopleAltIcon from '~/assets/icons/people-alt.vue'
+import ArchiveFolder from '~/assets/icons/archive-folder.vue'
 // import ConfigurationIcon from '~/assets/icons/configurations.vue'
 // import ExitIcon from '~/assets/icons/exit.vue'
 // import Scheduling from '~/assets/icons/scheduling.vue'
-// import Assignment from '~/assets/icons/assignment.vue'
+import Assignment from '~/assets/icons/assignment.vue'
 // import Domain from '~/assets/icons/domain.vue'
 // import ContactPhone from '~/assets/icons/contact-phone.vue'
 
-// interface MenuItem {
-//   icon: string
-//   name: string
-//   to: string | Object
-//   counter?: number
-//   subMenu: Array<MenuItem>
-// }
 export default defineComponent({
   name: 'Sidebar',
   components: {
-    //     ExitIcon,
-    //     ArchiveFolder,
-    //     PeopleAltIcon,
-    //     ArrowDownIcon,
-    //     PersonFrameIcon,
-    //     CarClusterIcon,
-    //     OpenBookIcon,
+    ArchiveFolder,
+    PeopleAltIcon,
+    ArrowDownIcon,
+    PersonFrameIcon,
+    CarClusterIcon,
+    OpenBookIcon,
     BurgerMenu,
-    //     ConfigurationIcon,
-    //     Scheduling,
-    //     Domain,
-    //     Assignment,
-    //     ContactPhone,
+    Assignment,
   },
   data: () => ({
     modules: [],
     hiddenSettings: true,
   }),
-  //   methods: {
-  //     handleLogout(action: any) {
-  //       action.preventDefault()
-  //       //this.$auth.logout()
-  //     },
-  //   },
+  computed: {
+    userType(): any {
+      // @ts-ignore
+      return this.$store.state.auth.user.userRole
+    },
+  },
 })
 </script>
