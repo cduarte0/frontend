@@ -61,7 +61,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="deleteUser(carrier)"
+                  @click="deleteCarrier(carrier)"
                 >
                   <delete-outline />
                 </div>
@@ -70,6 +70,20 @@
           </Table>
         </div>
       </div>
+
+      <delet-modal
+        v-if="showDeleteModal"
+        @close="showDeleteModal = false"
+        @remove="remove"
+      >
+        <div class="flex">
+            <span
+            >Tem certeza que pretende remover a transportadora:
+              {{ selectedCarrier.companyName }}?</span
+            >
+        </div>
+      </delet-modal>
+
       <nuxt-child />
     </page>
   </div>
@@ -84,10 +98,12 @@ import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import DeletModal from "~/components/common/misc/DeletModal.vue";
 
 export default defineComponent({
   name: "Index",
   components: {
+    DeletModal,
     Page,
     AppButton,
     TextInput,
@@ -97,11 +113,17 @@ export default defineComponent({
     DeleteOutline,
   },
   data: () => ({
+    showDeleteModal: false,
     data:[],
-    selectedCarrier: {},
+    selectedCarrier: {
+      id:'',
+      companyName:'',
+      email:'',
+      address:'',
+    },
     carriersHeaders: [
       {
-        key: "fullName",
+        key: "companyName",
         title: "Nome Completo",
         class: "whitespace-no-wrap",
       },
@@ -123,10 +145,20 @@ export default defineComponent({
   },
 
   computed: {
-    carriers(this:any) {
-      return Object.values(this.$store.state.carriers.all)
+    // carriers(this:any) {
+    //   return Object.values(this.$store.state.carriers.all)
+    // },
+    //
+    carriers(this: any) {
+      return Object.values(this.$store.state.carriers.all).map((item: any) => ({
+        id: item.id,
+        companyName: item.companyName,
+        email: item.email,
+        address: item.address,
+      }));
     },
   },
+
   methods: {
     goToEdit(carrier: any) {
       this.$router.push({
@@ -135,8 +167,32 @@ export default defineComponent({
       });
       console.log(carrier);
     },
-    deleteUser(carrier: any) {
+
+    deleteCarrier(carrier: any) {
+      this.selectedCarrier = carrier || {}
+      this.showDeleteModal = !this.showDeleteModal
     },
-  },
-});
+    remove() {
+      this.$store.dispatch('carriers/deleteItem', {
+        config: {
+          URL: `/carriers/${this.selectedCarrier.id}`,
+        },
+      })
+        .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'transportadora eliminado com sucesso',
+          })
+          this.$store.dispatch('carriers/fetchItems')
+          this.showDeleteModal = !this.showDeleteModal
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao eliminar a transportadora, por favor tente novamente.',
+          })
+        })
+      }
+    },
+  });
 </script>

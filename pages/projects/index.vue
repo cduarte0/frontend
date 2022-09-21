@@ -98,6 +98,24 @@
                 >
                   <ViewOutline />
                 </div>
+
+                  <div
+                    class="
+                    flex
+                    w-8
+                    h-8
+                    justify-items-center
+                    p-2
+                    rounded-sm
+                    bg-red-500
+                    text-white
+                    cursor-pointer
+                  "
+                    @click="deleteProject(project)"
+                  >
+                    <delete-outline />
+
+                </div>
               </div>
             </template>
           </Table>
@@ -110,6 +128,19 @@
         />
       </div>
       </div>
+
+      <delet-modal
+        v-if="showDeleteModal"
+        @close="showDeleteModal = false"
+        @remove="remove"
+      >
+        <div class="flex">
+            <span
+            >Tem certeza que pretende remover o projecto:
+              {{ selectedProject.projectName }}?</span
+            >
+        </div>
+      </delet-modal>
       <nuxt-child />
     </page>
   </div>
@@ -123,13 +154,15 @@ import TextInput from '~/components/common/inputs/TextInput.vue'
 import AddUserIcon from '~/assets/icons/add-user.vue'
 import Table from '~/components/common/misc/Table.vue'
 import EditOutline from '~/assets/icons/edit_outline.vue'
-// import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import DeleteOutline from "~/assets/icons/delete_outline.vue";
 import ViewOutline from '~/assets/icons/view-outline.vue'
 import Pagination from '~/components/common/misc/Pagination.vue'
+import DeletModal from "~/components/common/misc/DeletModal.vue";
 
 export default defineComponent({
   name: 'Index',
   components: {
+    DeletModal,
     ViewOutline,
     Page,
     AppButton,
@@ -138,16 +171,22 @@ export default defineComponent({
     Table,
     EditOutline,
      Pagination,
-    // DeleteOutline,
+    DeleteOutline,
   },
   data: () => ({
+    showDeleteModal: false,
     filters: {
       page: 0,
       name: '',
     },
     date: new Date(),
     data: [],
-    selectedProjects: {},
+    selectedProject: {
+      id:'',
+      projectName:'',
+      localImplementation:'',
+      status:'',
+    },
     projectHeaders: [
       {
         key: 'projectName',
@@ -175,14 +214,19 @@ export default defineComponent({
      return this.$store.state.projects.pagination
     },
     projects(this: any) {
-      return Object.values(this.$store.state.projects.all)
+      return Object.values(this.$store.state.projects.all).map((item: any) => ({
+        id: item.id,
+        projectName: item.projectName,
+        localImplementation: item.localImplementation,
+        status: item.status,
+      }));
     },
   },
 
   methods: {
     fetchProjects() {
       this.$store.dispatch('projects/fetchItems', {
-        params: { ...this.filters },
+        params: {...this.filters},
       })
     },
 
@@ -192,7 +236,7 @@ export default defineComponent({
       const d = Date.parse(project.dateStart)
       this.$router.push({
         name: 'projects-index-id-edit',
-        params: { project: project },
+        params: {project: project},
       })
     },
     projectDetail(project: any) {
@@ -201,6 +245,32 @@ export default defineComponent({
       //   params: { id: project.id },
       // })
     },
+
+    deleteProject(project: any) {
+      this.selectedProject = project || {}
+      this.showDeleteModal = !this.showDeleteModal
+    },
+    remove() {
+      this.$store.dispatch('projects/deleteItem', {
+        config: {
+          URL: `/projects/${this.selectedProject.id}`,
+        },
+      })
+        .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'Projecto eliminado com sucesso',
+          })
+          this.$store.dispatch('projects/fetchItems')
+          this.showDeleteModal = !this.showDeleteModal
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao eliminar o projecto, por favor tente novamente.',
+          })
+        })
+    }
   },
 })
 </script>

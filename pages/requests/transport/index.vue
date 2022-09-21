@@ -69,11 +69,43 @@
                 >
                   <ViewOutline/>
                 </div>
+
+                <div
+                    class="
+                    flex
+                    w-8
+                    h-8
+                    justify-items-center
+                    p-2
+                    rounded-sm
+                    bg-red-500
+                    text-white
+                    cursor-pointer
+                  "
+                    @click="deleteTransportRequest(transportRequest)"
+                  >
+                    <delete-outline />
+
+                </div>
               </div>
             </template>
           </Table>
         </div>
       </div>
+
+      <delet-modal
+        v-if="showDeleteModal"
+        @close="showDeleteModal = false"
+        @remove="remove"
+      >
+        <div class="flex">
+            <span
+            >Tem certeza que pretende remover a requisicao de transporte:
+              {{ selectedRequest.descriptionRequest }}?</span
+            >
+        </div>
+      </delet-modal>
+
       <nuxt-child />
     </page>
   </div>
@@ -88,12 +120,14 @@ import TextInput from "~/components/common/inputs/TextInput.vue";
 import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
-// import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import DeleteOutline from "~/assets/icons/delete_outline.vue";
 import ViewOutline from "~/assets/icons/view-outline.vue";
+import DeletModal from "~/components/common/misc/DeletModal.vue";
 
 export default defineComponent({
   name: "Index",
   components: {
+    DeletModal,
     ViewOutline,
     Page,
     AppButton,
@@ -101,30 +135,37 @@ export default defineComponent({
     AddUserIcon,
     Table,
     EditOutline,
-    // DeleteOutline,
+    DeleteOutline,
   },
   data: () => ({
+    showDeleteModal: false,
     filters: {
       page: 0,
       name: '',
     },
     date: new Date(),
     data: [],
-    selectedRequest: {},
+    selectedRequest: {
+      id:'',
+      descriptionRequest: '',
+      requestorResponsible: '',
+      projectName:'',
+    },
     requestHeaders: [
+      {
+        key: "descriptionRequest",
+        title: "Descricao da Solicitacao",
+        class: "whitespace-no-wrap",
+      },
+
       {
         key: "requestorResponsible",
         title: "Requisitante",
         class: "whitespace-no-wrap",
       },
       {
-        key: "name",
+        key: "projectName",
         title: "Projecto",
-        class: "whitespace-no-wrap",
-      },
-      {
-        key: "destiny",
-        title: "Destino",
         class: "whitespace-no-wrap",
       },
     ],
@@ -139,12 +180,11 @@ export default defineComponent({
         this.$store.state.transportation.all
       ).map((item: any) => ({
         id: item.id,
-        name: item.project.projectName,
+        descriptionRequest: item.descriptionRequest,
         requestorResponsible: item.requestorResponsible,
-        destiny:item.destiny
+        projectName: item.project.projectName
       }))
     },
-    
   },
   methods: {
     fetchTransportRequest() {
@@ -158,6 +198,32 @@ export default defineComponent({
         params: { request: request},
       });
     },
-  },
-});
+
+    deleteTransportRequest(transportRequest: any) {
+      this.selectedRequest = transportRequest || {}
+      this.showDeleteModal = !this.showDeleteModal
+    },
+    remove() {
+      this.$store.dispatch('transportation/deleteItem', {
+        config: {
+          URL: `/transportation/${this.selectedRequest.id}`,
+        },
+      })
+        .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'Solicitacao de transporte eliminado com sucesso',
+          })
+          this.$store.dispatch('transportation/fetchItems')
+          this.showDeleteModal = !this.showDeleteModal
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao eliminar a Solicitacao de transporte, por favor tente novamente.',
+          })
+        })
+      }
+    },
+  });
 </script>

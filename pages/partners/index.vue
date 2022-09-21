@@ -61,7 +61,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="deleteUser(partner)"
+                  @click="deletePartner(partner)"
                 >
                   <delete-outline />
                 </div>
@@ -77,6 +77,19 @@
         />
       </div>
       </div>
+
+        <delet-modal
+          v-if="showDeleteModal"
+          @close="showDeleteModal = false"
+          @remove="remove"
+        >
+          <div class="flex">
+            <span
+            >Tem certeza que pretende remover o parceiro:
+              {{ selectedPartner.companyName }}?</span
+            >
+          </div>
+        </delet-modal>
       <nuxt-child />
     </page>
   </div>
@@ -92,10 +105,12 @@ import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
 import Pagination from '~/components/common/misc/Pagination.vue'
+import DeletModal from '~/components/common/misc/DeletModal.vue'
 
 export default defineComponent({
   name: "Index",
   components: {
+    DeletModal,
     Page,
     AppButton,
     TextInput,
@@ -106,8 +121,14 @@ export default defineComponent({
     Pagination,
   },
   data: () => ({
+    showDeleteModal: false,
     data:[],
-    selectedPartner: {},
+    selectedPartner: {
+      id:'',
+      companyName:'',
+      projectName:'',
+      email:'',
+    },
     partnersHeaders: [
       {
         key: "companyName",
@@ -152,8 +173,32 @@ export default defineComponent({
       });
       console.log(partner);
     },
-    deleteUser(partner: any) {
+
+    deletePartner(partner: any) {
+      this.selectedPartner = partner || {}
+      this.showDeleteModal = !this.showDeleteModal
     },
-  },
-});
+    remove(){
+      this.$store.dispatch('partners/deleteItem', {
+        config: {
+          URL: `/partners/${this.selectedPartner.id}`,
+        },
+      })
+        .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'Parceiro eliminado com sucesso',
+          })
+          this.$store.dispatch('partners/fetchItems')
+          this.showDeleteModal = !this.showDeleteModal
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao eliminar o parceiro, por favor tente novamente.',
+          })
+        })
+      }
+    },
+  });
 </script>

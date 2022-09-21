@@ -129,6 +129,7 @@ export default {
   }),
   methods: {
     handleSubmit(this: any) {
+      this.project.typeCurrency = this.project.typeCurrency.name;
       this.$store
         .dispatch('projects/createItem', {
           data: this.project,

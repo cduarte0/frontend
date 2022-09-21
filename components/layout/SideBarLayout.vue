@@ -138,7 +138,7 @@
                     to="/requests/transport"
                   >
                     <car-cluster-icon class="inline-block mr-3 text-gray-500" />
-                    <span>Transporte</span>
+                    <span>Sol. Transporte</span>
                   </nuxt-link>
                 </li>
                 <li>
@@ -174,7 +174,7 @@
                     to="/requests/termReference"
                   >
                     <assignment class="inline-block mr-3 text-gray-500" />
-                    <span>Termos</span>
+                    <span>Termo Referencia</span>
                   </nuxt-link>
                 </li>
                 <li>
