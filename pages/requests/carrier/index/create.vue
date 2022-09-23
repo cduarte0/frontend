@@ -9,7 +9,7 @@
         <TextInput
           label="Nome"
           placeholder="Nome"
-          v-model="carrier.fullName"
+          v-model="carrier.companyName"
           class="col-span-2"
           required
         />
@@ -74,7 +74,7 @@ export default defineComponent({
     carrier: {
       address: '',
       email: '',
-      fullName: '',
+      companyName: '',
       nuit: '',
       telephoneFax: '',
     },

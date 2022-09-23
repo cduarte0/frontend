@@ -32,7 +32,7 @@
         />
         <TextInput
           v-model="trasportRequest.descriptionRequest"
-          label="Descrição"
+          label="Descrição da Solicitação"
           placeholder="Descrição"
           class=""
           required
