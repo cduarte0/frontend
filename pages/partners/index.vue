@@ -146,8 +146,10 @@ export default defineComponent({
   data: () => ({
     modules: [],
     hiddenSettings: true,
+
     showDeleteModal: false,
     data:[],
+
     selectedPartner: {
       id:'',
       companyName:'',

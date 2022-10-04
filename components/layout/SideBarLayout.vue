@@ -33,7 +33,7 @@
             Principais
           </h3>
           <ul class="mb-8 text-sm font-medium">
-            <li>
+            <li >
               <nuxt-link
                 class="
                   flex
