@@ -4,7 +4,8 @@
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
-          <div>
+
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">
             <AppButton
               class="flex text-white"
               label="Adicionar"
@@ -22,6 +23,7 @@
               </template>
             </AppButton>
           </div>
+
         </div>
         <div class="flex w-full">
           <Table
@@ -33,7 +35,7 @@
           >
             <template #actions="{ value: partner }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -49,7 +51,25 @@
                 >
                   <edit-outline />
                 </div>
+
                 <div
+                  class="
+                    flex
+                    w-8
+                    h-8
+                    justify-items-center
+                    p-2
+                    rounded-sm
+                    bg-green-500
+                    text-white
+                    cursor-pointer
+                  "
+                  @click="userDetail(user)"
+                >
+                  <ViewOutline/>
+                </div>
+
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -65,6 +85,7 @@
                 >
                   <delete-outline />
                 </div>
+
               </div>
             </template>
           </Table>
@@ -106,6 +127,7 @@ import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
 import Pagination from '~/components/common/misc/Pagination.vue'
 import DeletModal from '~/components/common/misc/DeletModal.vue'
+import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
   name: "Index",
@@ -119,8 +141,11 @@ export default defineComponent({
     EditOutline,
     DeleteOutline,
     Pagination,
+    ViewOutline,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
     showDeleteModal: false,
     data:[],
     selectedPartner: {
@@ -153,6 +178,11 @@ export default defineComponent({
   },
 
   computed: {
+    userType(): any {
+      // @ts-ignore
+      return this.$store.state.auth.user.userRole
+    },
+
     meta(this:any) {
      return this.$store.state.partners.pagination
     },

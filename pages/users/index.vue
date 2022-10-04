@@ -14,7 +14,7 @@
             placeholder="Pesquisar"
             class="w-1/4 px-2"
           />
-          <div>
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">
             <AppButton
               class="flex text-white"
               label="Adicionar"
@@ -43,7 +43,7 @@
           >
             <template #actions="{ value: user }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -59,6 +59,7 @@
                 >
                   <edit-outline />
                 </div>
+
                 <div
                   class="
                     flex
@@ -75,7 +76,8 @@
                 >
                   <ViewOutline/>
                 </div>
-                <div
+
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -148,6 +150,9 @@ export default defineComponent({
     Pagination,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
+
     showDeleteModal: false,
     filters: {
       page: 0,
@@ -210,6 +215,11 @@ export default defineComponent({
   },
 
   computed: {
+    userType(): any {
+      // @ts-ignore
+      return this.$store.state.auth.user.userRole
+    },
+
     meta(this:any) {
      return this.$store.state.users.pagination
     },
@@ -264,7 +274,7 @@ export default defineComponent({
             message: 'Erro ao eliminar utilizador, por favor tente novamente.',
           })
         })
-      
+
     }
   },
 })

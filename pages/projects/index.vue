@@ -34,7 +34,7 @@
               </template>
             </AppButton>
           </div>-->
-          <div>
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">
             <AppButton
               class="flex text-white"
               label="Adicionar"
@@ -66,7 +66,7 @@
             </template>
             <template #actions="{ value: project }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -99,7 +99,7 @@
                   <ViewOutline />
                 </div>
 
-                  <div
+                  <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                     class="
                     flex
                     w-8
@@ -174,6 +174,9 @@ export default defineComponent({
     DeleteOutline,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
+
     showDeleteModal: false,
     filters: {
       page: 0,
@@ -210,9 +213,15 @@ export default defineComponent({
   },
 
   computed: {
+    userType(): any {
+      // @ts-ignore
+      return this.$store.state.auth.user.userRole
+    },
+
     meta(this:any) {
      return this.$store.state.projects.pagination
     },
+
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
         id: item.id,

@@ -53,7 +53,8 @@
                 <span>Parceiros</span>
               </nuxt-link>
             </li>
-            <li v-if="userType === 'ROLE_ADMIN'">
+<!--            <li v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">-->
+            <li>
               <nuxt-link
                 class="
                   flex
