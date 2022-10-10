@@ -13,7 +13,7 @@
               size="large"
               @click.native="
                 $router.push({
-                  name: 'requests-tdr-index-create',
+                  name: 'requests-termReference-create',
                 })
               "
             >

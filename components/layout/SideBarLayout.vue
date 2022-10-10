@@ -213,12 +213,7 @@ import PersonFrameIcon from '~/assets/icons/person-frame.vue'
 import ArrowDownIcon from '~/assets/icons/arrow-down.vue'
 import PeopleAltIcon from '~/assets/icons/people-alt.vue'
 import ArchiveFolder from '~/assets/icons/archive-folder.vue'
-// import ConfigurationIcon from '~/assets/icons/configurations.vue'
-// import ExitIcon from '~/assets/icons/exit.vue'
-// import Scheduling from '~/assets/icons/scheduling.vue'
 import Assignment from '~/assets/icons/assignment.vue'
-// import Domain from '~/assets/icons/domain.vue'
-// import ContactPhone from '~/assets/icons/contact-phone.vue'
 
 export default defineComponent({
   name: 'Sidebar',
@@ -244,3 +239,8 @@ export default defineComponent({
   },
 })
 </script>
+<style scoped>
+ a.nuxt-link-active {
+  background: rgba(99, 35, 28, 0.932);
+}
+</style> 

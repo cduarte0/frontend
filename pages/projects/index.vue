@@ -96,7 +96,7 @@
                   "
                   @click="projectDetail(project)"
                 >
-                  <ViewOutline />
+                  <view-outline />
                 </div>
 
                   <div
@@ -232,8 +232,8 @@ export default defineComponent({
 
     goToEdit(project: any) {
       // project.dateStart = project.dateStart[0]+'/'+project.dateStart[1]+'/'+project.dateStart[2]
-      console.log(project.dateStart)
-      const d = Date.parse(project.dateStart)
+      // console.log(project.dateStart)
+      // const d = Date.parse(project.dateStart)
       this.$router.push({
         name: 'projects-index-id-edit',
         params: {project: project},

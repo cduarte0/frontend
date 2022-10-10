@@ -5,7 +5,7 @@
       size="xl"
       @close="$router.push({ name: 'users' })"
     >
-      <ValidationObserver ref="observer">
+      <ValidationObserver ref="observer" tag="form" @submit.prevent="handleSubmit()">
         <div class="grid grid-cols-3 gap-4 space-y-px w-max">
           <TextInput
             label="Username"
@@ -150,10 +150,10 @@ import SelectInput from '~/components/common/inputs/SelectInput.vue'
 import AppButton from '~/components/common/misc/AppButton.vue'
 import TextInput from '~/components/common/inputs/TextInput.vue'
 import { defineComponent, ref } from '@nuxtjs/composition-api'
-// import { ValidationObserver } from 'vee-validate'
+import { ValidationObserver } from 'vee-validate'
 
 export default defineComponent({
-  components: { Modal, AppButton, TextInput, SelectInput },
+  components: { Modal, AppButton, TextInput, SelectInput, ValidationObserver },
   data: () => ({
     rol: '',
     userType: [
@@ -202,9 +202,12 @@ export default defineComponent({
     }
   },
   methods: {
-    handleSubmit(this: any) {
+    async handleSubmit(this: any) {
+      // @ts-ignore
+      const isValid = await this.$refs.observer.validate();
       this.users.projectId = this.selectedProject.id
-      this.$store
+      if(isValid){
+        this.$store
         .dispatch('users/createItem', {
           data: this.users,
         })
@@ -221,7 +224,11 @@ export default defineComponent({
             type: 'error',
             message: 'Erro ao criar utilizador, por favor tente novamente.',
           })
-        })
+        })  
+      }else{
+        
+      }
+      
     },
   },
 })
