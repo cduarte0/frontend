@@ -111,7 +111,7 @@
         <div class="flex">
           <span
             >Tem certeza que pretende remover o utilizador:
-            {{ selectedUser.username }}?</span
+            {{ selectedUser.fullName }}?</span
           >
         </div>
       </delet-modal>
@@ -264,7 +264,7 @@ export default defineComponent({
             message: 'Erro ao eliminar utilizador, por favor tente novamente.',
           })
         })
-      
+
     }
   },
 })

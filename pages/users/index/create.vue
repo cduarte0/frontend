@@ -196,8 +196,8 @@ export default defineComponent({
     roles(this: any){
       return Object.values(this.$store.state.roles.all).map((item: any) => ({
         id: item.id,
-        name: item.name,
-        value: item.description,
+        name: item.description,
+        value: item.name,
       }))
     }
   },
