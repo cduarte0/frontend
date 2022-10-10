@@ -119,7 +119,7 @@ export default {
     qtyDays: null,
     qtyMaterial: null,
     sequences: null,
-    unitValue: null,  
+    unitValue: null,
  }
  ],
     cardHeaders: [
@@ -145,8 +145,9 @@ export default {
       },
     ],
     index: 0,
-    
+
   }),
+
   methods:{
     moveItems(this: any): [] {
         this.index = this.items.length
@@ -155,7 +156,7 @@ export default {
             this.items[this.index].qtyDays = this.qtyDays
             this.items[this.index].qtyMaterial = this.qtyMaterial
             this.items[this.index].sequences = this.sequences
-            this.items[this.index].unitValue = this.unitValue            
+            this.items[this.index].unitValue = this.unitValue
         }
         //this.index = this.index+1
         this.materialDescription = null,
@@ -163,7 +164,8 @@ export default {
         this.qtyMaterial = null,
         this.sequences = null,
         this.unitValue = null
-        return this.items[this.index]      
+        return this.items[this.index]
     }
   }
 }
+</script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Page class="py-10 px-8" title="Termos de referencia" sub-title="Lista de tdrs">
+    <Page class="py-10 px-8" title="Termos de referencia" sub-title="Lista de Termos de Referencia">
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />

@@ -1,25 +1,21 @@
 <template>
+
   <div class="flex flex-wrap w-full">
     <Modal
-      :title="'Requisicao de pagamento'"
+      :title="'Criar Ordem de Compra'"
       size="xl"
-      @close="$router.push({ name: 'requests-payments' })"
+      @close="$router.push({ name: 'requests-purchaseOrders' })"
     >
       <div class="grid grid-cols-2 gap-3 space-y-px w-max">
+
         <TextInput
-          v-model="payment.requestedBy"
-          label="Nome do requisitante"
-          placeholder="Nome do requisitante"
+          v-model="purchaseOrder.descriptionPurchase"
+          label="Descricao da Ordem de Compra"
+          placeholder="descricao da compra"
           class="col-span-2"
           required
         />
-        <TextInput
-          v-model="payment.totalValueExtensive"
-          label="Valor em extenso"
-          placeholder="Valor em extenso"
-          class=""
-          required
-        />
+
         <SelectInput
           v-model="referenceSelected"
           label="Termo de referencia"
@@ -28,53 +24,76 @@
           class=""
           required=""
         />
+
         <TextInput
-          v-model="payment.descriptionPayment"
-          label="Descrição"
-          placeholder="Descrição"
+          v-model="purchaseOrder.monthPurchaseOrder"
+          label="Mes"
+          placeholder="Mes"
           class=""
           required
         />
+
         <TextInput
-          v-model="payment.location"
-          label="Local"
-          placeholder="Local"
-          class=""
-          required
-        />
-        <TextInput
-          v-model="payment.qhotationProformaAdvanceNumber"
+          v-model="purchaseOrder.orderNumber"
           type="number"
-          label="Cotação"
-          placeholder="Cotação"
+          label="Pedido Nr."
+          placeholder="numero do pedido"
           class=""
           required
         />
+
+        <TextInput
+          v-model="purchaseOrder.budgetNumber"
+          type="number"
+          label="Orçamento Nr."
+          placeholder="numero do orçamento"
+          class=""
+          required
+        />
+
         <SelectInput
-          label="Tipo de moeda"
+          label="Departamento"
           placeholder="Selecione uma opção"
-          :items="currencyType"
-          v-model="payment.currencyType"
+          v-model="purchaseOrder.department"
+          :items="department"
           class=""
-          required
+          required=""
         />
+
         <TextInput
-          v-model="payment.dateElaboration"
-          type="date"
-          label="Data de pagamento"
-          placeholder=""
-          class=""
-          required
-        />
-        <TextInput
-          v-model="payment.requestNumber"
+          v-model="purchaseOrder.paymentMethods"
           type="number"
-          label="Numero de requisição"
+          label="Nr. de cheque"
           placeholder=""
           class=""
+          required
+        />
+
+        <TextInput
+          v-model="purchaseOrder.paymentTerms"
+          label="Condicoes de Pagamento"
+          placeholder=""
+          class=""
+          required
+        />
+
+        <TextInput
+          v-model="purchaseOrder.deliveryForecast"
+          label="Previsao de Entrega"
+          placeholder="previsao de entrega"
+          class=""
+          required
+        />
+
+        <TextInput
+          v-model="purchaseOrder.comments"
+          label="Comentarios"
+          placeholder="Comentarios"
+          class="col-span-2"
           required
         />
       </div>
+
       <template #actions>
         <div class="flex items-center space-x-4">
           <AppButton
@@ -88,7 +107,7 @@
             label="Cancelar"
             variant="white"
             size="large"
-            @click.native="$router.push({ name: 'requests-payments' })"
+            @click.native="$router.push({ name: 'requests-purchaseOrders' })"
           />
         </div>
       </template>
@@ -108,26 +127,22 @@ export default defineComponent({
       id: '',
       name: '',
       value: '',
+      balanceTotalActivity : '',
     },
-    currencyType: [
-      { id: 1, name: 'MZN', value: 'MZN' },
-      { id: 2, name: 'USD', value: 'USD' },
-      { id: 3, name: 'Real', value: 'R$' },
-      { id: 4, name: 'Libra', value: 'Libra' },
-      { id: 5, name: 'RAND', value: 'RAND' },
-      { id: 6, name: 'Yen', value: 'Yen' },
-      { id: 7, name: 'EURO', value: 'EURO' },
-    ],
-    payment: {
-      currencyType: '',
-      dateElaboration: '',
-      descriptionPayment: '',
-      location: '',
-      qhotationProformaAdvanceNumber: 0,
-      requestNumber: '',
-      totalValueExtensive: '',
-      referenceTerm: '',
-      requestedBy: '',
+
+    department: ['Logistica', 'Financas', 'Direccao', 'Contabilidade'],
+
+    purchaseOrder: {
+      budgetNumber: '',
+      comments: '',
+      deliveryForecast: '',
+      department: '',
+      descriptionPurchase: '',
+      monthPurchaseOrder: '',
+      orderNumber: '',
+      paymentMethods: '',
+      paymentTerms: '',
+      referenceTerm: ''
     },
   }),
   computed: {
@@ -136,21 +151,22 @@ export default defineComponent({
         id: item.id,
         name: item.descriptionTdR,
         value: item.descriptionTdR,
+        balanceTotalActivity : item.balanceTotalActivity,
       }))
     },
   },
   methods: {
     handleSubmit() {
-      this.payment.referenceTerm = this.referenceSelected.id
+      this.purchaseOrder.referenceTerm = this.referenceSelected.id
       // this.payment.currencyType = this.payment.currencyType.name
       this.$store
-        .dispatch('payments/createItem', {
-          data: this.payment,
+        .dispatch('purchaseOrders/createItem', {
+          data: this.purchaseOrder,
         })
         .then(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'success',
-            message: 'Solicitacao efectuada com sucesso',
+            message: 'Ordem de Compra efectuada com sucesso',
           })
           this.$store.dispatch('payments/fetchItems')
           this.$router.push({ name: 'requests-payments' })
@@ -158,7 +174,7 @@ export default defineComponent({
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'error',
-            message: 'Erro ao efectuar solicitacao, por favor tente novamente.',
+            message: 'Erro ao efectuar a Ordem de Compra, por favor tente novamente.',
           })
         })
     },

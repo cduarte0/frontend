@@ -160,7 +160,7 @@ export default defineComponent({
         })
         .catch((e: any) => {
           if (this.form.password && this.form.username){
-            this.message = 'Username ou Password, invalido! Por favor tente novamente.'
+            this.message = 'Username ou Password, invalido ou falha na conexao! Por favor tente novamente.'
           }
 
           // console.log(e)

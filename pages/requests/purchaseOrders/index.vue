@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Page class="py-10 px-8" title="Requisicao de Pagamento" sub-title="Lista de requisicoes de pagamentos">
+    <Page class="py-10 px-8" title="Ordem de Compra" sub-title="Lista de Ordens de Compra">
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
@@ -14,7 +14,7 @@
               size="large"
               @click.native="
                 $router.push({
-                  name: 'requests-payments-index-create',
+                  name: 'requests-purchaseOrders-index-create',
                 })
               "
             />
@@ -23,12 +23,12 @@
         <div class="flex w-full">
           <Table
             class="w-full"
-            :headers="paymentHeaders"
+            :headers="purchaseHeaders"
             counter
-            :items="payments"
+            :items="purchaseOrders"
             actions
           >
-            <template #actions="{ value: payment }">
+            <template #actions="{ value: purchaseOrder }">
               <div class="flex flex-wrap items-center space-x-2">
                 <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_LOGISTIC'
                     || userType === 'ROLE_MANAGER'"
@@ -43,7 +43,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="goToEdit(payment)"
+                  @click="goToEdit(purchaseOrder)"
                 >
                   <edit-outline />
                 </div>
@@ -60,7 +60,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="userDetail(user)"
+                  @click="purchaseDetail(purchaseOrder)"
                 >
                   <ViewOutline/>
                 </div>
@@ -78,7 +78,7 @@
                     text-white
                     cursor-pointer
                   "
-                  @click="deleteTdr(payment)"
+                  @click="deleteTdr(purchaseOrder)"
                 >
                   <delete-outline />
                 </div>
@@ -121,7 +121,7 @@ export default defineComponent({
 
     data:[],
     selectedTdr: {},
-    paymentHeaders: [
+    purchaseHeaders: [
       {
         key: "name",
         title: "Termo de referencia",
@@ -141,7 +141,7 @@ export default defineComponent({
   }),
 
   async fetch({ store }: any) {
-    await store.dispatch('payments/fetchItems')
+    await store.dispatch('purchases/fetchItems')
   },
 
   computed: {
@@ -151,7 +151,7 @@ export default defineComponent({
     },
 
     payments(this:any) {
-      return Object.values(this.$store.state.payments.all).map((item: any) => ({
+      return Object.values(this.$store.state.purchaseOrders.all).map((item: any) => ({
         createdAt: item.createdAt,
         name: item.referenceTerm.descriptionTdR,
         totalValue: item.totalValue
@@ -159,13 +159,13 @@ export default defineComponent({
     },
   },
   methods: {
-    goToEdit(payment: any) {
+    goToEdit(purchaseOrder: any) {
       this.$router.push({
-        name: "requests-payments-index-id-edit",
-        params: { tdr: payment },
+        name: "requests-purchases-index-id-edit",
+        params: { tdr: purchaseOrder },
       });
     },
-    deleteTdr(payment: any) {
+    deleteTdr(purchaseOrder: any) {
     },
   },
 });
