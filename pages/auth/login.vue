@@ -10,8 +10,14 @@
       <div class="flex justify-center w-full">
         <img class="w-16" src="~/assets/images/caritas.png" alt="caritas-Logo" />
       </div>
+
       <div class="flex flex-wrap flex-col w-full items-center space-y-5 mt-8">
         <div class="w-1/3">
+
+          <div v-if="message" style="align-content: center; font-family: Arial; color: red">
+            {{ message }}
+          </div>
+
           <label for="email-address" class="sr-only">Email address</label>
           <input
             id="email-address"
@@ -115,7 +121,11 @@ export default defineComponent({
   name: 'Login',
   components: { },
   layout: 'blank',
+
   data: () => ({
+
+    message : '',
+
     form: {
       username: '',
       password: '',
@@ -127,13 +137,33 @@ export default defineComponent({
 
   methods: {
     async login() {
+
+      if (!this.form.password && !this.form.username){
+        this.message = 'Atenção!!! Os campos não podem estar vazios!'
+        return;
+      }
+
+      if(!this.form.password){
+        this.message = 'Atenção!!! O campo Password não pode estar vazio!'
+        return;
+      }
+
+      if(!this.form.username) {
+        this.message = 'Atenção!!! O campo Username não pode estar vazio!'
+        return;
+      }
+
       await (this as any).$auth
         .loginWith('local', { data: this.form })
         .then(() => {
           (this as any).$auth.redirect('home', true)
         })
         .catch((e: any) => {
-          console.log(e)
+          if (this.form.password && this.form.username){
+            this.message = 'Username ou Password, invalido! Por favor tente novamente.'
+          }
+
+          // console.log(e)
         })
     },
   },

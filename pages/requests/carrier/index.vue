@@ -184,6 +184,8 @@ export default defineComponent({
         companyName: item.companyName,
         email: item.email,
         address: item.address,
+        nuit: item.nuit,
+        telephoneFax: item.telephoneFax,
       }));
     },
   },

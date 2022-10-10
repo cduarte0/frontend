@@ -193,7 +193,8 @@ export default defineComponent({
         id: item.id,
         companyName: item.companyName,
         projectName: item.projects[0].projectName,
-        email: item.email
+        email: item.email,
+        address: item.address
       }));
     },
   },
