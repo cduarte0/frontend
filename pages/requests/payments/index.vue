@@ -4,7 +4,8 @@
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
-          <div>
+
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_LOGISTIC'">
             <AppButton
               class="flex text-white"
               label="Requisitar"
@@ -29,7 +30,8 @@
           >
             <template #actions="{ value: payment }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_LOGISTIC'
+                    || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -45,7 +47,26 @@
                 >
                   <edit-outline />
                 </div>
+
                 <div
+                  class="
+                    flex
+                    w-8
+                    h-8
+                    justify-items-center
+                    p-2
+                    rounded-sm
+                    bg-green-500
+                    text-white
+                    cursor-pointer
+                  "
+                  @click="userDetail(user)"
+                >
+                  <ViewOutline/>
+                </div>
+
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_LOGISTIC'
+                          || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -80,6 +101,7 @@ import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
   name: "Index",
@@ -91,8 +113,12 @@ export default defineComponent({
     Table,
     EditOutline,
     DeleteOutline,
+    ViewOutline,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
+
     data:[],
     selectedTdr: {},
     paymentHeaders: [
@@ -119,6 +145,11 @@ export default defineComponent({
   },
 
   computed: {
+    userType(): any {
+      // @ts-ignore
+      return this.$store.state.auth.user.userRole
+    },
+
     payments(this:any) {
       return Object.values(this.$store.state.payments.all).map((item: any) => ({
         createdAt: item.createdAt,

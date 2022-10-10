@@ -111,7 +111,7 @@ export default {
       { id: 3, name: 'Real', value: 'R$' },
       { id: 4, name: 'Libra', value: 'Libra' },
       { id: 5, name: 'RAND', value: 'RAND' },
-      { id: 6, name: 'Yen', value: 'Yen' },
+      { id: 6, name: 'YEN', value: 'YEN' },
       { id: 7, name: 'EURO', value: 'EURO' },
     ],
     project: {
@@ -121,7 +121,7 @@ export default {
       dateEnd: '',
       dateStart: '',
       localImplementation: '',
-      status: 'Active',
+      status: 'Activo',
       typeCurrency: '',
       projectCode: '',
       accountNumberProject: '',

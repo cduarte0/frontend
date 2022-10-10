@@ -33,7 +33,7 @@
             Principais
           </h3>
           <ul class="mb-8 text-sm font-medium">
-            <li>
+            <li >
               <nuxt-link
                 class="
                   flex
@@ -53,7 +53,8 @@
                 <span>Parceiros</span>
               </nuxt-link>
             </li>
-            <li v-if="userType === 'ROLE_ADMIN'">
+<!--            <li v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">-->
+            <li>
               <nuxt-link
                 class="
                   flex

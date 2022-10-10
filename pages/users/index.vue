@@ -14,7 +14,7 @@
             placeholder="Pesquisar"
             class="w-1/4 px-2"
           />
-          <div>
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">
             <AppButton
               class="flex text-white"
               label="Adicionar"
@@ -43,7 +43,7 @@
           >
             <template #actions="{ value: user }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -59,6 +59,7 @@
                 >
                   <edit-outline />
                 </div>
+
                 <div
                   class="
                     flex
@@ -75,7 +76,8 @@
                 >
                   <ViewOutline/>
                 </div>
-                <div
+
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
                   class="
                     flex
                     w-8
@@ -148,47 +150,47 @@ export default defineComponent({
     Pagination,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
+
     showDeleteModal: false,
     filters: {
       page: 0,
       name: '',
     },
-    projectUser:{
-      id:'',
-      name:'',
-      value:'',
-    },
+    // projectUser:{
+    //   id:'',
+    //   name:'',
+    //   value:'',
+    // },
     data: [],
     selectedUser: {
       id:'',
-      address: '',
-      projectId: '',
-      dateBirth: '',
-      civilStatus: '',
-      dateEnd: '',
-      dateStart: '',
-      email: '',
+      // projectId: '',
+      // dateBirth: '',
+      // civilStatus: '',
+      // dateEnd: '',
+      // dateStart: '',
       fullName: '',
-      gender: '',
-      password: '',
-      passwordConfirmation: '',
-      phoneNumber: '',
-      provenance: '',
-      roles: [''],
-      username: '',
+      email: '',
+      projectName : '',
+      // address: '',
+      // gender: '',
+      // password: '',
+      // passwordConfirmation: '',
+      // phoneNumber: '',
+      // provenance: '',
+      rolesDescriptions: '',
+      // username: '',
     },
     usersHeaders: [
-      {
-        key: 'username',
-        title: 'USER',
-        class: 'whitespace-no-wrap',
-      },
       // {
-      //   key: 'project',
-      //   title: 'PROJECTO',
+      //   key: 'username',
+      //   title: 'USER',
       //   class: 'whitespace-no-wrap',
       // },
-       {
+
+      {
         key: 'fullName',
         title: 'Nome',
         class: 'whitespace-no-wrap',
@@ -199,8 +201,23 @@ export default defineComponent({
         class: 'whitespace-no-wrap',
       },
       {
-        key: 'phoneNumber',
-        title: 'Celular',
+        key: 'projectName',
+        title: 'PROJECTO',
+        class: 'whitespace-no-wrap',
+      },
+      // {
+      //   key: 'address',
+      //   title: 'Endereco',
+      //   class: 'whitespace-no-wrap',
+      // },
+      // {
+      //   key: 'phoneNumber',
+      //   title: 'Celular',
+      //   class: 'whitespace-no-wrap',
+      // },
+      {
+        key: 'rolesDescriptions',
+        title: 'Roles',
         class: 'whitespace-no-wrap',
       },
     ],
@@ -210,11 +227,26 @@ export default defineComponent({
   },
 
   computed: {
+    userType(): any {
+      // @ts-ignore
+      return this.$store.state.auth.user.userRole
+    },
+
     meta(this:any) {
      return this.$store.state.users.pagination
     },
+
     users(this: any) {
-      return Object.values(this.$store.state.users.all)
+      return Object.values(this.$store.state.users.all).map((item: any) => ({
+        id: item.id,
+        // username : item.username,
+        fullName : item.fullName,
+        email : item.email,
+        projectName: item.project.projectName,
+        address : item.address,
+        // phoneNumber : item.phoneNumber,
+        rolesDescriptions : item.rolesDescriptions[0],
+      }));
     },
   },
 
@@ -232,12 +264,14 @@ export default defineComponent({
         params: { user: user },
       })
     },
+
     userDetail(user: any){
       user.map((item: any) => ({
         id: item.id,
         fullName: item.fullName,
         projectName: item.project.projectName,
-        email: item.email
+        email: item.email,
+        phoneNumber : item.phoneNumber,
       }));
     },
     deleteUser(user: any) {
