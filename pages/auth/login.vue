@@ -18,13 +18,13 @@
             {{ message }}
           </div>
 
-          <label for="email-address" class="sr-only">Email address</label>
+          <label for="username" class="sr-only">Username</label>
           <input
-            id="email-address"
+            id="username"
             v-model="form.username"
-            name="email"
-            type="email"
-            autocomplete="email"
+            name="username"
+            type="username"
+            autocomplete="username"
             required
             class="
               appearance-none
@@ -44,7 +44,7 @@
               focus:z-10
               sm:text-sm
             "
-            placeholder="Email address"
+            placeholder="Username"
           />
         </div>
         <div class="w-1/3">
@@ -160,7 +160,7 @@ export default defineComponent({
         })
         .catch((e: any) => {
           if (this.form.password && this.form.username){
-            this.message = 'Username ou Password, invalido ou falha na conexao! Por favor tente novamente.'
+            this.message = 'Username ou Password, invalido ou falha na conexao! Por favor, tente novamente.'
           }
 
           // console.log(e)

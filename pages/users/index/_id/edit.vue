@@ -43,10 +43,10 @@
           required
         />
         <SelectInput
-          v-model="user.roles"
+          v-model="user.rolesDescriptions"
           label="Tipo de utilizador"
           placeholder=""
-          :items="role"
+          :items="rolesDescriptions"
           class=""
           required
         />
@@ -54,12 +54,12 @@
           v-model="user.civilStatus"
           label="Estado Civil"
           placeholder=""
-          :items="statusM"
           class=""
+          :items="statusM"
           required
         />
         <TextInput
-          v-model="user.dataEnd"
+          v-model="user.dateEnd"
           type="date"
           label="Fim do contrato"
           placeholder=""
@@ -69,7 +69,7 @@
         <SelectInput
           v-model="user.projectId"
           label="Projecto"
-          placeholder=""
+          :placeholder="user.projectName"
           :items="projects"
           class=""
           required
@@ -152,7 +152,7 @@ export default {
             message: 'Erro, problemas ao atualizar dados do utilizador.',
           })
         })
-     
+
     },
   },
 }

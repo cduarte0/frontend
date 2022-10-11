@@ -158,30 +158,30 @@ export default defineComponent({
       page: 0,
       name: '',
     },
-    // projectUser:{
-    //   id:'',
-    //   name:'',
-    //   value:'',
-    // },
+    projectUser:{
+      id:'',
+      name:'',
+      value:'',
+    },
     data: [],
     selectedUser: {
       id:'',
-      // projectId: '',
-      // dateBirth: '',
-      // civilStatus: '',
-      // dateEnd: '',
-      // dateStart: '',
+      projectId: '',
+      dateBirth: '',
+      civilStatus: '',
+      dateEnd: '',
+      dateStart: '',
       fullName: '',
       email: '',
       projectName : '',
-      // address: '',
-      // gender: '',
-      // password: '',
-      // passwordConfirmation: '',
-      // phoneNumber: '',
-      // provenance: '',
+      address: '',
+      gender: '',
+      password: '',
+      passwordConfirmation: '',
+      phoneNumber: '',
+      provenance: '',
       rolesDescriptions: '',
-      // username: '',
+      username: '',
     },
     usersHeaders: [
       // {
@@ -239,13 +239,15 @@ export default defineComponent({
     users(this: any) {
       return Object.values(this.$store.state.users.all).map((item: any) => ({
         id: item.id,
-        // username : item.username,
+        username : item.username,
         fullName : item.fullName,
         email : item.email,
         projectName: item.project.projectName,
         address : item.address,
-        // phoneNumber : item.phoneNumber,
+        phoneNumber : item.phoneNumber,
         rolesDescriptions : item.rolesDescriptions[0],
+        dateEnd : item.dateEnd,
+        civilStatus : item.civilStatus,
       }));
     },
   },
@@ -274,6 +276,7 @@ export default defineComponent({
         phoneNumber : item.phoneNumber,
       }));
     },
+
     deleteUser(user: any) {
       this.selectedUser = user || {}
       this.showDeleteModal = !this.showDeleteModal

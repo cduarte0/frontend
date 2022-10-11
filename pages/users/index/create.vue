@@ -193,6 +193,7 @@ export default defineComponent({
         value: item.id,
       }))
     },
+
     roles(this: any){
       return Object.values(this.$store.state.roles.all).map((item: any) => ({
         id: item.id,
@@ -224,11 +225,11 @@ export default defineComponent({
             type: 'error',
             message: 'Erro ao criar utilizador, por favor tente novamente.',
           })
-        })  
+        })
       }else{
-        
+
       }
-      
+
     },
   },
 })
