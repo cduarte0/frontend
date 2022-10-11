@@ -71,7 +71,15 @@
                   class="w-full"
                   :headers="cardHeaders"
                   counter
-                  :items="'items'"
+                  :items="items"
+                />
+              </div>
+              <div class="w-full flex flex-wrap justify-center">
+                <app-button
+                  @click.native="more(items)"
+                  label="Mais"
+                  variant="green"
+                  size="large"
                 />
               </div>
             </div>
@@ -83,9 +91,9 @@
 </template>
 
 <script lang="ts">
-import Table from "~/components/common/misc/Table.vue"
+import Table from '~/components/common/misc/Table.vue'
 import Page from '~/components/common/misc/Page.vue'
-import Card from "~/components/common/misc/Card.vue"
+import Card from '~/components/common/misc/Card.vue'
 import InformationTitle from '~/components/common/misc/InformationTitle.vue'
 import UserIcon from '~/assets/icons/person-frame.vue'
 import AppButton from '~/components/common/misc/AppButton.vue'
@@ -105,23 +113,22 @@ export default {
   },
   data: () => ({
     drag: false,
-    // needs: {
-    //   items: [],
-    // },
+    needs: {
+    },
     materialDescription: null,
     qtyDays: null,
     qtyMaterial: null,
     sequences: null,
     unitValue: null,
-    items:[
-    {
-    materialDescription: null,
-    qtyDays: null,
-    qtyMaterial: null,
-    sequences: null,
-    unitValue: null,  
- }
- ],
+    items: [
+      {
+        materialDescription: null,
+        qtyDays: null,
+        qtyMaterial: null,
+        sequences: null,
+        unitValue: null,
+      },
+    ],
     cardHeaders: [
       {
         key: 'materialDescription',
@@ -145,25 +152,34 @@ export default {
       },
     ],
     index: 0,
-    
+    lastPosition: 5,
   }),
-  methods:{
+  methods: {
     moveItems(this: any): [] {
-        this.index = this.items.length
-        if(this.index<=30){
-            this.items[this.index].materialDescription = this.materialDescription
-            this.items[this.index].qtyDays = this.qtyDays
-            this.items[this.index].qtyMaterial = this.qtyMaterial
-            this.items[this.index].sequences = this.sequences
-            this.items[this.index].unitValue = this.unitValue            
-        }
-        //this.index = this.index+1
-        this.materialDescription = null,
-        this.qtyDays = null,
-        this.qtyMaterial = null,
-        this.sequences = null,
-        this.unitValue = null
-        return this.items[this.index]      
+      console.log(this.materialDescription)
+      if (this.index <= this.lastPosition) {
+        this.items[this.index].materialDescription = this.materialDescription
+        console.log('items = ' + this.items)
+        this.items[this.index].qtyDays = this.qtyDays
+        this.items[this.index].qtyMaterial = this.qtyMaterial
+        this.items[this.index].sequences = 1
+        this.items[this.index].unitValue = this.unitValue
+      }
+      this.index = this.index + 1
+      this.materialDescription = '',
+      this.qtyDays = '',
+      this.qtyMaterial = null,
+      this.sequences = null,
+      this.unitValue = null
+      return this.items
+    },
+    more(items: any){
+      // @ts-ignore
+      this.$router.push({
+        name: 'requests-termReference-index-create',
+        params: {items: items}
+      })
     }
-  }
+  },
 }
+</script>

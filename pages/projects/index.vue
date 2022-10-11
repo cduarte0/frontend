@@ -7,7 +7,12 @@
     >
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
-          <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
+          <TextInput
+            label=""
+            @input="fetchProjects"
+            placeholder="Pesquisar"
+            class="w-1/4 px-2"
+          />
           <!--<div>
             <AppButton
               class="flex text-black"
@@ -66,7 +71,10 @@
             </template>
             <template #actions="{ value: project }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
+                <div
+                  v-if="
+                    userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+                  "
                   class="
                     flex
                     w-8
@@ -99,8 +107,11 @@
                   <view-outline />
                 </div>
 
-                  <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'"
-                    class="
+                <div
+                  v-if="
+                    userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+                  "
+                  class="
                     flex
                     w-8
                     h-8
@@ -111,22 +122,21 @@
                     text-white
                     cursor-pointer
                   "
-                    @click="deleteProject(project)"
-                  >
-                    <delete-outline />
-
+                  @click="deleteProject(project)"
+                >
+                  <delete-outline />
                 </div>
               </div>
             </template>
           </Table>
         </div>
         <div class="flex">
-        <pagination
-          :value="meta.currentPage + 1"
-          :total-rows="meta.totalRows"
-          :per-page="meta.perPage"
-        />
-      </div>
+          <pagination
+            :value="meta.currentPage + 1"
+            :total-rows="meta.totalRows"
+            :per-page="meta.perPage"
+          />
+        </div>
       </div>
 
       <delet-modal
@@ -135,10 +145,10 @@
         @remove="remove"
       >
         <div class="flex">
-            <span
+          <span
             >Tem certeza que pretende remover o projecto:
-              {{ selectedProject.projectName }}?</span
-            >
+            {{ selectedProject.projectName }}?</span
+          >
         </div>
       </delet-modal>
       <nuxt-child />
@@ -154,10 +164,10 @@ import TextInput from '~/components/common/inputs/TextInput.vue'
 import AddUserIcon from '~/assets/icons/add-user.vue'
 import Table from '~/components/common/misc/Table.vue'
 import EditOutline from '~/assets/icons/edit_outline.vue'
-import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import DeleteOutline from '~/assets/icons/delete_outline.vue'
 import ViewOutline from '~/assets/icons/view-outline.vue'
 import Pagination from '~/components/common/misc/Pagination.vue'
-import DeletModal from "~/components/common/misc/DeletModal.vue";
+import DeletModal from '~/components/common/misc/DeletModal.vue'
 
 export default defineComponent({
   name: 'Index',
@@ -170,7 +180,7 @@ export default defineComponent({
     AddUserIcon,
     Table,
     EditOutline,
-     Pagination,
+    Pagination,
     DeleteOutline,
   },
   data: () => ({
@@ -180,15 +190,15 @@ export default defineComponent({
     showDeleteModal: false,
     filters: {
       page: 0,
-      name: '',
+      projectName: '',
     },
     date: new Date(),
     data: [],
     selectedProject: {
-      id:'',
-      projectName:'',
-      localImplementation:'',
-      status:'',
+      id: '',
+      projectName: '',
+      localImplementation: '',
+      status: '',
     },
     projectHeaders: [
       {
@@ -218,8 +228,8 @@ export default defineComponent({
       return this.$store.state.auth.user.userRole
     },
 
-    meta(this:any) {
-     return this.$store.state.projects.pagination
+    meta(this: any) {
+      return this.$store.state.projects.pagination
     },
 
     projects(this: any) {
@@ -228,14 +238,14 @@ export default defineComponent({
         projectName: item.projectName,
         localImplementation: item.localImplementation,
         status: item.status,
-      }));
+      }))
     },
   },
 
   methods: {
     fetchProjects() {
       this.$store.dispatch('projects/fetchItems', {
-        params: {...this.filters},
+        params: { ...this.filters },
       })
     },
 
@@ -245,7 +255,7 @@ export default defineComponent({
       // const d = Date.parse(project.dateStart)
       this.$router.push({
         name: 'projects-index-id-edit',
-        params: {project: project},
+        params: { project: project },
       })
     },
     projectDetail(project: any) {
@@ -260,11 +270,12 @@ export default defineComponent({
       this.showDeleteModal = !this.showDeleteModal
     },
     remove() {
-      this.$store.dispatch('projects/deleteItem', {
-        config: {
-          URL: `/projects/${this.selectedProject.id}`,
-        },
-      })
+      this.$store
+        .dispatch('projects/deleteItem', {
+          config: {
+            URL: `/projects/${this.selectedProject.id}`,
+          },
+        })
         .then(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'success',
@@ -279,7 +290,7 @@ export default defineComponent({
             message: 'Erro ao eliminar o projecto, por favor tente novamente.',
           })
         })
-    }
+    },
   },
 })
 </script>

@@ -46,7 +46,7 @@
           v-model="user.roles"
           label="Tipo de utilizador"
           placeholder=""
-          :items="role"
+          :items="roles"
           class=""
           required
         />
@@ -67,7 +67,7 @@
           required
         />
         <SelectInput
-          v-model="user.projectId"
+          v-model="project"
           label="Projecto"
           placeholder=""
           :items="projects"
@@ -117,7 +117,15 @@ export default {
   data: () => ({
     role: ['Administrador', 'Gestor', 'Normal'],
     statusM: ['Casado', 'Solteiro', 'Divorciado'],
+    project: {
+      id: '',
+      name: '',
+      value: '',
+    },
   }),
+  created(){
+    this.fetch()
+  },
   computed: {
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
@@ -126,19 +134,32 @@ export default {
         value: item.id,
       }))
     },
+    roles(this: any) {
+      return Object.values(this.$store.state.roles.all).map((item: any) => ({
+        id: item.id,
+        name: item.description,
+        value: item.name,
+      }))
+    },
   },
 
   methods: {
-    handleSubmit(this:any) {
-      this.$store.dispatch('users/updateItem', {
-        config: {
-          // @ts-ignore
-              URL: `/users/${this.user.id}`,
-            },
-            data: { ...(this as any).user },
-            noStoreUpdate: true,
-      })
-      .then(() => {
+    fetch() {
+      this.$store.dispatch('roles/fetchItems')
+      this.$store.dispatch('projects/fetchItems')
+    },
+    handleSubmit(this: any) {
+      this.user.projectId = this.project.id
+      this.$store
+        .dispatch('users/updateItem', {
+          config: {
+            // @ts-ignore
+            URL: `/users/${this.user.id}`,
+          },
+          data: { ...(this as any).user },
+          noStoreUpdate: true,
+        })
+        .then(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'success',
             message: 'Os dados do utilizador foram atuaizados',
@@ -152,7 +173,6 @@ export default {
             message: 'Erro, problemas ao atualizar dados do utilizador.',
           })
         })
-     
     },
   },
 }
