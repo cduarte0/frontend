@@ -259,10 +259,10 @@ export default defineComponent({
       })
     },
     projectDetail(project: any) {
-      // this.$router.push({
-      //   name: 'projects-index-id',
-      //   params: { id: project.id },
-      // })
+      this.$router.push({
+        name: 'projects-details',
+        params: { project: project},
+      })
     },
 
     deleteProject(project: any) {

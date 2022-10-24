@@ -192,8 +192,27 @@
                     "
                     to="/requests/payments"
                   >
-                    <money class="inline-block mr-3 text-gray-500" />
-                    <span>Pagamentos</span>
+                    <!--<archive-folder class="inline-block mr-3" />-->
+                    <span>Requisicao Pagamento</span>
+                  </nuxt-link>
+                </li>
+
+                <li>
+                  <nuxt-link
+                    class="
+                      flex
+                      items-center
+                      pl-5
+                      py-1
+                      pr-4
+                      text-gray-50
+                      hover:bg-red-900
+                      rounded
+                    "
+                    to="/requests/purchaseOrders"
+                  >
+                    <!--<archive-folder class="inline-block mr-3" />-->
+                    <span>Ordem de Compra</span>
                   </nuxt-link>
                 </li>
               </ul>
@@ -246,4 +265,4 @@ export default defineComponent({
  a.nuxt-link-active {
   background: rgba(99, 35, 28, 0.932);
 }
-</style> 
+</style>
