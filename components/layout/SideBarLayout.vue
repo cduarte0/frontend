@@ -192,7 +192,7 @@
                     "
                     to="/requests/payments"
                   >
-                    <!--<archive-folder class="inline-block mr-3" />-->
+                    <money class="inline-block mr-3 text-gray-500" />
                     <span>Pagamentos</span>
                   </nuxt-link>
                 </li>
@@ -215,6 +215,7 @@ import ArrowDownIcon from '~/assets/icons/arrow-down.vue'
 import PeopleAltIcon from '~/assets/icons/people-alt.vue'
 import ArchiveFolder from '~/assets/icons/archive-folder.vue'
 import Assignment from '~/assets/icons/assignment.vue'
+import Money from '~/assets/icons/money.vue'
 
 export default defineComponent({
   name: 'Sidebar',
@@ -227,6 +228,7 @@ export default defineComponent({
     OpenBookIcon,
     BurgerMenu,
     Assignment,
+    Money
   },
   data: () => ({
     modules: [],
