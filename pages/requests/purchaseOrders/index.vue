@@ -25,7 +25,7 @@
             class="w-full"
             :headers="purchaseHeaders"
             counter
-            :items="purchaseOrders"
+            :items="purchases"
             actions
           >
             <template #actions="{ value: purchaseOrder }">
@@ -150,8 +150,8 @@ export default defineComponent({
       return this.$store.state.auth.user.userRole
     },
 
-    payments(this:any) {
-      return Object.values(this.$store.state.purchaseOrders.all).map((item: any) => ({
+    purchases(this:any) {
+      return Object.values(this.$store.state.purchases.all).map((item: any) => ({
         createdAt: item.createdAt,
         name: item.referenceTerm.descriptionTdR,
         totalValue: item.totalValue

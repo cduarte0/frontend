@@ -6,13 +6,13 @@
       size="xl"
       @close="$router.push({ name: 'requests-purchaseOrders' })"
     >
-      <div class="grid grid-cols-2 gap-3 space-y-px w-max">
+      <div class="grid grid-cols-3 gap-3 space-y-px w-max">
 
         <TextInput
           v-model="purchaseOrder.descriptionPurchase"
           label="Descricao da Ordem de Compra"
           placeholder="descricao da compra"
-          class="col-span-2"
+          class="col-span-3"
           required
         />
 
@@ -89,7 +89,7 @@
           v-model="purchaseOrder.comments"
           label="Comentarios"
           placeholder="Comentarios"
-          class="col-span-2"
+          class=""
           required
         />
       </div>
@@ -160,7 +160,7 @@ export default defineComponent({
       this.purchaseOrder.referenceTerm = this.referenceSelected.id
       // this.payment.currencyType = this.payment.currencyType.name
       this.$store
-        .dispatch('purchaseOrders/createItem', {
+        .dispatch('purchases/createItem', {
           data: this.purchaseOrder,
         })
         .then(() => {

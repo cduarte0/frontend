@@ -33,7 +33,9 @@
             actions
           >
             <template #name="{ value: transportRequest }">
-              <span class="flex font-semibold">{{ transportRequest.name }}</span>
+              <span class="flex font-semibold">{{
+                transportRequest.name
+              }}</span>
             </template>
             <template #actions="{ value: transportRequest }">
               <div class="flex flex-wrap items-center space-x-2">
@@ -67,11 +69,11 @@
                   "
                   @click="requestDetail(transportRequest)"
                 >
-                  <ViewOutline/>
+                  <ViewOutline />
                 </div>
 
                 <div
-                    class="
+                  class="
                     flex
                     w-8
                     h-8
@@ -82,10 +84,9 @@
                     text-white
                     cursor-pointer
                   "
-                    @click="deleteTransportRequest(transportRequest)"
-                  >
-                    <delete-outline />
-
+                  @click="deleteTransportRequest(transportRequest)"
+                >
+                  <delete-outline />
                 </div>
               </div>
             </template>
@@ -99,10 +100,10 @@
         @remove="remove"
       >
         <div class="flex">
-            <span
+          <span
             >Tem certeza que pretende remover a requisicao de transporte:
-              {{ selectedRequest.descriptionRequest }}?</span
-            >
+            {{ selectedRequest.descriptionRequest }}?</span
+          >
         </div>
       </delet-modal>
 
@@ -112,20 +113,19 @@
 </template>
 
 <script lang="ts">
-
-import { defineComponent } from "@nuxtjs/composition-api";
-import Page from "~/components/common/misc/Page.vue";
-import AppButton from "~/components/common/misc/AppButton.vue";
-import TextInput from "~/components/common/inputs/TextInput.vue";
-import AddUserIcon from "~/assets/icons/add-user.vue";
-import Table from "~/components/common/misc/Table.vue";
-import EditOutline from "~/assets/icons/edit_outline.vue";
-import DeleteOutline from "~/assets/icons/delete_outline.vue";
-import ViewOutline from "~/assets/icons/view-outline.vue";
-import DeletModal from "~/components/common/misc/DeletModal.vue";
+import { defineComponent } from '@nuxtjs/composition-api'
+import Page from '~/components/common/misc/Page.vue'
+import AppButton from '~/components/common/misc/AppButton.vue'
+import TextInput from '~/components/common/inputs/TextInput.vue'
+import AddUserIcon from '~/assets/icons/add-user.vue'
+import Table from '~/components/common/misc/Table.vue'
+import EditOutline from '~/assets/icons/edit_outline.vue'
+import DeleteOutline from '~/assets/icons/delete_outline.vue'
+import ViewOutline from '~/assets/icons/view-outline.vue'
+import DeletModal from '~/components/common/misc/DeletModal.vue'
 
 export default defineComponent({
-  name: "Index",
+  name: 'Index',
   components: {
     DeletModal,
     ViewOutline,
@@ -146,27 +146,27 @@ export default defineComponent({
     date: new Date(),
     data: [],
     selectedRequest: {
-      id:'',
+      id: '',
       descriptionRequest: '',
       requestorResponsible: '',
-      projectName:'',
+      projectName: '',
     },
     requestHeaders: [
       {
-        key: "descriptionRequest",
-        title: "Descricao da Solicitacao",
-        class: "whitespace-no-wrap",
+        key: 'descriptionRequest',
+        title: 'Descricao da Solicitacao',
+        class: 'whitespace-no-wrap',
       },
 
       {
-        key: "requestorResponsible",
-        title: "Requisitante",
-        class: "whitespace-no-wrap",
+        key: 'requestorResponsible',
+        title: 'Requisitante',
+        class: 'whitespace-no-wrap',
       },
       {
-        key: "projectName",
-        title: "Projecto",
-        class: "whitespace-no-wrap",
+        key: 'projectName',
+        title: 'Projecto',
+        class: 'whitespace-no-wrap',
       },
     ],
   }),
@@ -176,14 +176,14 @@ export default defineComponent({
 
   computed: {
     transportRequests(this: any) {
-      return Object.values(
-        this.$store.state.transportation.all
-      ).map((item: any) => ({
-        id: item.id,
-        descriptionRequest: item.descriptionRequest,
-        requestorResponsible: item.requestorResponsible,
-        projectName: item.project.projectName
-      }))
+      return Object.values(this.$store.state.transportation.all).map(
+        (item: any) => ({
+          id: item.id,
+          descriptionRequest: item.descriptionRequest,
+          requestorResponsible: item.requestorResponsible,
+          projectName: item.project.projectName,
+        })
+      )
     },
   },
   methods: {
@@ -194,9 +194,9 @@ export default defineComponent({
     },
     goToEdit(request: any) {
       this.$router.push({
-        name: "transport-index-id-edit",
-        params: { request: request},
-      });
+        name: 'transport-index-id-edit',
+        params: { request: request },
+      })
     },
 
     deleteTransportRequest(transportRequest: any) {
@@ -204,11 +204,12 @@ export default defineComponent({
       this.showDeleteModal = !this.showDeleteModal
     },
     remove() {
-      this.$store.dispatch('transportation/deleteItem', {
-        config: {
-          URL: `/transportation/${this.selectedRequest.id}`,
-        },
-      })
+      this.$store
+        .dispatch('transportation/deleteItem', {
+          config: {
+            URL: `/transportation/${this.selectedRequest.id}`,
+          },
+        })
         .then(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'success',
@@ -220,10 +221,14 @@ export default defineComponent({
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'error',
-            message: 'Erro ao eliminar a Solicitacao de transporte, por favor tente novamente.',
+            message:
+              'Erro ao eliminar a Solicitacao de transporte, por favor tente novamente.',
           })
         })
-      }
     },
-  });
+    requestDetail(item: any) {
+      this.$router.push({ name: 'requests-transport-id', params: { id: item.id } })
+    },
+  },
+})
 </script>
