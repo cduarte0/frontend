@@ -258,6 +258,7 @@ export default defineComponent({
         params: { project: project },
       })
     },
+
     projectDetail(project: any) {
       this.$router.push({
         name: 'projects-details',

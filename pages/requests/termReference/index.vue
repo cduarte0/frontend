@@ -70,6 +70,20 @@
           </Table>
         </div>
       </div>
+
+      <delet-modal
+        v-if="showDeleteModal"
+        @close="showDeleteModal = false"
+        @remove="remove"
+      >
+        <div class="flex">
+            <span
+            >Tem certeza que pretende remover a TdR:
+              {{ selectedTdr.descriptionTdR }}?</span
+            >
+        </div>
+      </delet-modal>
+
       <nuxt-child />
     </page>
   </div>
@@ -84,10 +98,13 @@ import AddUserIcon from "~/assets/icons/add-user.vue";
 import Table from "~/components/common/misc/Table.vue";
 import EditOutline from "~/assets/icons/edit_outline.vue";
 import DeleteOutline from "~/assets/icons/delete_outline.vue";
+import DeletModal from "~/components/common/misc/DeletModal.vue";
+import ViewOutline from "~/assets/icons/view-outline.vue";
 
 export default defineComponent({
   name: "Index",
   components: {
+    DeletModal,
     Page,
     AppButton,
     TextInput,
@@ -95,26 +112,35 @@ export default defineComponent({
     Table,
     EditOutline,
     DeleteOutline,
+    ViewOutline,
   },
   data: () => ({
+
+    showDeleteModal: false,
+
     data:[],
-    selectedTdr: {},
+    selectedTdr: {
+      id:'',
+      descriptionTdR:'',
+      locationAndDateActivity:'',
+      status:'',
+    },
     tdrHeaders: [
       {
-        key: "approvedBy",
-        title: "Aprovador",
+        key: "descriptionTdR",
+        title: "Descricao da TdR",
         class: "whitespace-no-wrap",
       },
-      // {
-      //   key: "email",
-      //   title: "E-mail",
-      //   class: "whitespace-no-wrap"
-      // },
-      // {
-      //   key: "address",
-      //   title: "Endereco",
-      //   class: "whitespace-no-wrap",
-      // },
+      {
+        key: "locationAndDateActivity",
+        title: "Local e Data da Actividade",
+        class: "whitespace-no-wrap"
+      },
+      {
+        key: "status",
+        title: "Estado",
+        class: "whitespace-no-wrap",
+      },
     ],
   }),
 
@@ -124,18 +150,46 @@ export default defineComponent({
 
   computed: {
     tdrs(this:any) {
-      return Object.values(this.$store.state.tdrs.all)
+      return Object.values(this.$store.state.tdrs.all).map((item: any) => ({
+        id: item.id,
+        descriptionTdR: item.descriptionTdR,
+        locationAndDateActivity: item.locationAndDateActivity,
+        status: item.status,
+      }));
     },
   },
   methods: {
     goToEdit(tdr: any) {
       this.$router.push({
-        name: "requests-carrier-index-id-edit",
+        name: "requests-tdr-index-id-edit",
         params: { tdr: tdr },
       });
     },
     deleteTdr(tdr: any) {
+      this.selectedTdr = tdr || {}
+      this.showDeleteModal = !this.showDeleteModal
     },
-  },
-});
+    remove() {
+      this.$store.dispatch('tdrs/deleteItem', {
+        config: {
+          URL: `/tdrs/${this.selectedTdr.id}`,
+        },
+      })
+        .then(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'success',
+            message: 'TdR eliminado com sucesso',
+          })
+          this.$store.dispatch('tdrs/fetchItems')
+          this.showDeleteModal = !this.showDeleteModal
+        })
+        .catch(() => {
+          this.$store.dispatch('ui/pushNotification', {
+            type: 'error',
+            message: 'Erro ao eliminar a TdR, por favor tente novamente.',
+          })
+        })
+      }
+    },
+  });
 </script>

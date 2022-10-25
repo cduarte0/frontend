@@ -45,7 +45,7 @@
         <SelectInput
           v-model="user.roles"
           label="Tipo de utilizador"
-          placeholder=""
+          :placeholder="user.rolesDescriptions"
           :items="roles"
           class=""
           required
@@ -53,23 +53,23 @@
         <SelectInput
           v-model="user.civilStatus"
           label="Estado Civil"
-          placeholder=""
+          :placeholder="user.civilStatus"
           :items="statusM"
           class=""
           required
         />
         <TextInput
-          v-model="user.dataEnd"
+          v-model="user.dateEnd"
           type="date"
           label="Fim do contrato"
-          placeholder=""
+          :placeholder="user.dateEnd"
           class=""
           required
         />
         <SelectInput
-          v-model="project"
+          v-model="user.projectName"
           label="Projecto"
-          placeholder=""
+          :placeholder="user.projectName"
           :items="projects"
           class=""
           required
@@ -116,16 +116,18 @@ export default {
   },
   data: () => ({
     role: ['Administrador', 'Gestor', 'Normal'],
-    statusM: ['Casado', 'Solteiro', 'Divorciado'],
+    statusM: ['Casado/a', 'Solteiro/a', 'Divorciado/a','Viuvo/a'],
     project: {
       id: '',
       name: '',
       value: '',
     },
   }),
+
   created(){
     this.fetch()
   },
+
   computed: {
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
@@ -144,10 +146,12 @@ export default {
   },
 
   methods: {
+
     fetch() {
       this.$store.dispatch('roles/fetchItems')
       this.$store.dispatch('projects/fetchItems')
     },
+
     handleSubmit(this: any) {
       this.user.projectId = this.project.id
       this.$store
