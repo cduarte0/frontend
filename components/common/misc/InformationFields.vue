@@ -17,7 +17,7 @@
 export default {
   props: {
     fields: {
-      type: Object,
+      type: Array,
       required: true,
     },
     full: {
