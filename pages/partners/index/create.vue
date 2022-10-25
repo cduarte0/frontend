@@ -85,6 +85,11 @@ export default {
     },
     selectedProject: { id: '', name: '', value: '' },
   }),
+
+  created(){
+    this.fetch()
+  },
+
   computed: {
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
@@ -96,6 +101,11 @@ export default {
   },
 
   methods: {
+
+    fetch() {
+      this.$store.dispatch('projects/fetchItems')
+    },
+
     handleSubmit(this: any) {
       this.partner.project = this.selectedProject.id
       this.$store

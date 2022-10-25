@@ -165,6 +165,11 @@ export default {
     selectedProject: { id: '', name: '', value: '' },
     acomodation: ''
   }),
+
+  created(){
+    this.fetch()
+  },
+
   computed: {
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
@@ -175,6 +180,11 @@ export default {
     },
   },
   methods: {
+
+    fetch() {
+      this.$store.dispatch('projects/fetchItems')
+    },
+
     handleSubmit(this: any) {
       this.trasportRequest.project = this.selectedProject.id
       if(this.acomodation=='Sim'){

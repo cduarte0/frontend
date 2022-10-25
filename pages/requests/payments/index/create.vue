@@ -130,6 +130,11 @@ export default defineComponent({
       requestedBy: '',
     },
   }),
+
+  created(){
+    this.fetch()
+  },
+
   computed: {
     tdrs(this: any) {
       return Object.values(this.$store.state.tdrs.all).map((item: any) => ({
@@ -139,7 +144,14 @@ export default defineComponent({
       }))
     },
   },
+
   methods: {
+
+    fetch() {
+      this.$store.dispatch('tdrs/fetchItems')
+      this.$store.dispatch('projects/fetchItems')
+    },
+
     handleSubmit() {
       this.payment.referenceTerm = this.referenceSelected.id
       // this.payment.currencyType = this.payment.currencyType.name
