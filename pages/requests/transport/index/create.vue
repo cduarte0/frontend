@@ -6,6 +6,11 @@
       @close="$router.push({ name: 'requests-transport' })"
     >
       <div class="grid grid-cols-3 gap-3 space-y-px w-max">
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <SelectInput
           v-model="selectedProject"
           label="Projecto"
@@ -138,6 +143,9 @@ import MultCheckbox from '~/components/common/inputs/MultCheckbox.vue'
 export default {
   components: { Modal, AppButton, TextInput, SelectInput, Checkbox, MultCheckbox },
   data: () => ({
+
+    message:'',
+
     veicle:[
       'Pickup 5 lugares 4*4',
       'Minibus 15 lugares',
@@ -167,6 +175,7 @@ export default {
   }),
 
   created(){
+    //@ts-ignore
     this.fetch()
   },
 
@@ -182,6 +191,7 @@ export default {
   methods: {
 
     fetch() {
+      //@ts-ignore
       this.$store.dispatch('projects/fetchItems')
     },
 
@@ -209,9 +219,10 @@ export default {
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'error',
-            message: 'Erro ao solicitar, por favor tente novamente.',
+            message: 'Erro ao solicitar o transporte, por favor tente novamente.',
           })
         })
+      this.message = 'Erro ao solicitar o transporte, por favor tente novamente.'
     },
   },
 }

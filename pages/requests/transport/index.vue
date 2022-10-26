@@ -9,6 +9,10 @@
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
 
+          <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+            {{ message }}
+          </div>
+
           <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
               || userType === 'ROLE_TECHNICAL'|| userType === 'ROLE_LOGISTIC'
               || userType === 'ROLE_COORDINATOR'">
@@ -142,6 +146,9 @@ export default defineComponent({
     DeleteOutline,
   },
   data: () => ({
+
+    message:'',
+
     modules: [],
     hiddenSettings: true,
 
@@ -247,6 +254,7 @@ export default defineComponent({
               'Erro ao eliminar a Solicitacao de transporte, por favor tente novamente.',
           })
         })
+      this.message = 'Erro ao eliminar a Solicitacao de transporte, por favor tente novamente.'
     },
     requestDetail(item: any) {
       this.$router.push({ name: 'requests-transport-id', params: { id: item.id } })

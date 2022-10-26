@@ -7,6 +7,11 @@
       @close="$router.push({ name: 'users' })"
     >
       <div class="grid grid-cols-3 gap-4 space-y-px w-max">
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <TextInput
           v-model="user.username"
           label="Username"
@@ -115,6 +120,9 @@ export default {
     }
   },
   data: () => ({
+
+    message:'',
+
     role: ['Administrador', 'Gestor', 'Normal'],
     statusM: ['Casado/a', 'Solteiro/a', 'Divorciado/a','Viuvo/a'],
     project: {
@@ -125,6 +133,7 @@ export default {
   }),
 
   created(){
+    // @ts-ignore
     this.fetch()
   },
 
@@ -148,7 +157,9 @@ export default {
   methods: {
 
     fetch() {
+      // @ts-ignore
       this.$store.dispatch('roles/fetchItems')
+      // @ts-ignore
       this.$store.dispatch('projects/fetchItems')
     },
 
@@ -177,6 +188,7 @@ export default {
             message: 'Erro, problemas ao atualizar dados do utilizador.',
           })
         })
+      this.message = 'problemas ao atualizar dados do utilizador.'
     },
   },
 }

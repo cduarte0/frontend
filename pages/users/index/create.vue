@@ -7,6 +7,11 @@
     >
       <ValidationObserver ref="observer" tag="form" @submit.prevent="handleSubmit()">
         <div class="grid grid-cols-3 gap-4 space-y-px w-max">
+
+          <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+            {{ message }}
+          </div>
+
           <TextInput
             label="Username"
             placeholder="Username"
@@ -155,6 +160,9 @@ import { ValidationObserver } from 'vee-validate'
 export default defineComponent({
   components: { Modal, AppButton, TextInput, SelectInput, ValidationObserver },
   data: () => ({
+
+    message:'',
+
     rol: '',
     userType: [
       { id: '', value: 'Admin', name: 'Administrador' },
@@ -235,6 +243,7 @@ export default defineComponent({
             message: 'Erro ao criar utilizador, por favor tente novamente.',
           })
         })
+        this.message = 'Erro ao criar utilizador, por favor tente novamente.'
       }else{
 
       }

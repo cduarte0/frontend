@@ -33,6 +33,11 @@
             </AppButton>
           </div>
         </div>
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <div class="flex w-full">
           <Table
             class="w-full"
@@ -150,6 +155,9 @@ export default defineComponent({
     Pagination,
   },
   data: () => ({
+
+    message:'',
+
     modules: [],
     hiddenSettings: true,
 
@@ -303,10 +311,10 @@ export default defineComponent({
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'error',
-            message: 'Erro ao eliminar utilizador, por favor tente novamente.',
+            message: 'Erro ao eliminar utilizador, por favor, tente novamente.',
           })
         })
-
+        this.message = 'Erro ao eliminar utilizador, por favor, tente novamente.'
     }
   },
 })
