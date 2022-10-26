@@ -67,7 +67,7 @@
           required
         />
         <SelectInput
-          v-model="user.projectName"
+          v-model="project"
           label="Projecto"
           :placeholder="user.projectName"
           :items="projects"

@@ -6,12 +6,19 @@
       :loading="$wait.waiting('projects.update.index')"
       @close="$router.push({ name: 'projects' })"
     >
-      <div class="grid grid-cols-2 gap-3 space-y-px w-max">
+      <div class="grid grid-cols-3 gap-3 space-y-px w-max">
         <TextInput
           v-model="project.projectName"
           label="Nome do projecto"
           placeholder="Nome do projecto"
-          class="col-span-2"
+          class=""
+          required
+        />
+         <TextInput
+          v-model="project.projectCode"
+          label="Codigo do projecto"
+          placeholder="Codigo"
+          class=""
           required
         />
         <TextInput
@@ -26,6 +33,14 @@
           type="number"
           label="Orcamento"
           placeholder="Orcamento"
+          class=""
+          required
+        />
+        <TextInput
+          v-model="project.accountNumberProject"
+          type="number"
+          label="Numero de conta"
+          placeholder="Conta"
           class=""
           required
         />
@@ -45,7 +60,7 @@
           required
         />
         <TextInput
-          v-model="project.dateEnd"
+          v-model="newDate"
           type="date"
           label="Data final"
           placeholder="Data final"
@@ -96,12 +111,27 @@ export default {
     }
     const project = params.project
     return {
-      project,
+      project
     }
   },
-
+  data:()=>({
+    newDate: '',
+  }),
   methods: {
+    formatDate(item:any[]){
+      console.log(item)
+      // if(item[1]===10 || item[2]===10){
+      //   const date = item[0]+'-'+item[1]+''+'-'+item[2]
+      // }
+      const date = item[0]+'-'+item[1]+'-'+item[2]
+      return date
+    },
     handleSubmit(this:any) {
+      if(this.newDate){
+        this.project.dateEnd = this.newDate  
+      }else{
+        //this.project.dateEnd = this.formatDate(this.project.dateEnd)
+      }
       this.$store
         .dispatch('projects/updateItem', {
         config: {

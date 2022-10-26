@@ -19,7 +19,7 @@
         </AppButton>
         <AppButton
           v-if="tdr.status === 'PENDENTE'"
-          class="flex text-white"
+          class="flex text-white bg-red-500"
           label="Cancelar"
           variant="red"
           icon
@@ -29,9 +29,8 @@
         </AppButton>
         <AppButton
           v-if="tdr.status === 'PENDENTE'"
-          class="flex text-white"
+          class="flex text-white bg-red-700"
           label="Rejeitar"
-          variant="indigo-500"
           icon
           size="large"
           @click.native="openRejectModal(tdr)"
@@ -40,7 +39,7 @@
       </div>
       <div class="w-full md:w-1/2 flex flex-wrap content-start">
         <information-fields class="w-full" :fields="tdrItem">
-          <template v-slot:project="{ field }">
+          <template v-slot:status="{ field }">
             <div class="flex items-center">
               <div
                 :class="getStatus(field.value).class"
@@ -76,7 +75,7 @@ export default defineComponent({
   components: { Page, InformationFields, AppButton },
 
   async asyncData({ store, params }) {
-    const tdr = await store.dispatch('tdr/fetchItem', {
+    const tdr = await store.dispatch('tdrs/fetchItem', {
       id: params.id,
     })
     return { tdr }
@@ -92,7 +91,7 @@ export default defineComponent({
         {
           id: 'dateElaboration',
           label: 'Data de elaboracao',
-          value: (this as any).formatDate((this as any).tdr.dateElaboration),
+          value: (this as any).tdr.dateElaboration,
         },
         {
           id: 'beneficiary',
@@ -116,47 +115,45 @@ export default defineComponent({
         },
       ]
     },
+  },
+  methods: {
+    // formatAcomodation(item: boolean) {
+    //   if (item) return 'Sim'
+    //   else return 'Nao'
+    // },
+    // formatDate(item: string) {
+    //   const subS1 = item.substr(0, 10)
+    //   const subS2 = item.substr(11, 5)
+    //   item = subS1 + ' ' + subS2
+    //   return item
+    // },
     getStatus(item: string) {
       const status = { class: '', label: '' }
       if (item === 'Rejectado') {
-        status.class = 'bg-danger'
+        status.class = 'bg-red-900'
         status.label = 'Rejectado'
       }
       if (item === 'APROVADO') {
-        status.class = 'bg-success'
-        status.label = 'Aberta'
+        status.class = 'bg-green-500'
+        status.label = 'Aprovado'
       }
-      if (item === 'Cancelada') {
-        status.class = 'bg-dark'
+      if (item === 'CANCELADO') {
+        status.class = 'bg-red-500'
         status.label = 'Cancelada'
       }
-      if (item === 'Pendente') {
-        status.class = 'bg-warning'
+      if (item === 'PENDENTE') {
+        status.class = 'bg-yellow-500'
         status.label = 'Pendente'
       }
 
       return status
     },
-  },
-  methods: {
-    formatAcomodation(item: boolean) {
-      if (item) return 'Sim'
-      else return 'Nao'
-    },
-    formatDate(item: any) {
-      if (item) {
-        const subS1 = item.substr(0, 10)
-        const subS2 = item.substr(11, 5)
-        item = subS1 + ' ' + subS2
-        return item
-      }
-    },
     aprove() {
-      this.transportRequest.status = 'APROVADO'
+      // this.transportRequest.status = 'APROVADO'
       this.$store
-        .dispatch('tdr/updateItem', {
+        .dispatch('tdrs/updateItem', {
           config: {
-            URL: `/tdr/approve/${(this as any).tdr.id}`,
+            URL: `/tdrs/approve/${(this as any).tdr.id}`,
           },
           // data: { ...(this as any).transportRequest.status },
           // noStoreUpdate: true,
@@ -166,8 +163,8 @@ export default defineComponent({
             type: 'success',
             message: 'Aprovado com sucesso',
           })
-          this.$store.dispatch('transportation/fetchItems')
-          this.$router.push({ name: 'requests-tdr' })
+          this.$store.dispatch('tdrs/fetchItems')
+          this.$router.push({ name: 'requests-termReference' })
         })
         .catch(() => {
           this.$store.dispatch('ui/pushNotification', {
@@ -178,13 +175,13 @@ export default defineComponent({
     },
     openCancelModal(tdr: any) {
       this.$router.push({
-        name: 'requests-tdr-index-cancelModal',
+        name: 'requests-termReference-index-cancelModal',
         params: { tdr: tdr },
       })
     },
     openRejectModal(tdr: any) {
       this.$router.push({
-        name: 'requests-tdr-index-rejectModal',
+        name: 'requests-termReference-index-rejectModal',
         params: { tdr: tdr },
       })
     },

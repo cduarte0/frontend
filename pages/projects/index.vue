@@ -215,7 +215,9 @@ export default defineComponent({
         budget: item.budget,
         balanceAvailable: item.balanceAvailable,
         typeCurrency: item.typeCurrency,
-        dateEnd: item.dateEnd
+        dateEnd: item.dateEnd,
+        projectCode: item.projectCode,
+        accountNumberProject: item.accountNumberProject
       }))
     },
   },
@@ -235,10 +237,8 @@ export default defineComponent({
     },
 
     projectDetail(project: any) {
-      this.$router.push({
-        name: 'projects-details',
-        params: { project: project },
-      })
+      console.log('try something else')
+      this.$router.push({ name: 'projects-id', params:{ id: project.id }})
     },
 
     deleteProject(project: any) {
