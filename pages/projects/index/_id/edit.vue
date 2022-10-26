@@ -105,7 +105,7 @@ export default {
       this.$store
         .dispatch('projects/updateItem', {
         config: {
-              URL: `/users/${(this as any).project.id}`,
+              URL: `/projects/${(this as any).project.id}`,
             },
             data: { ...(this as any).project },
             noStoreUpdate: true,

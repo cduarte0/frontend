@@ -142,7 +142,7 @@ export default defineComponent({
   methods: {
     handleSubmit() {
       this.payment.referenceTerm = this.referenceSelected.id
-      // this.payment.currencyType = this.payment.currencyType.name
+      this.payment.currencyType = (this as any).payment.currencyType.name
       this.$store
         .dispatch('payments/createItem', {
           data: this.payment,

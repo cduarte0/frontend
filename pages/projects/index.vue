@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page
+    <Page
       class="py-10 px-8"
       title="Projectos"
       sub-title="Lista de projectos existentes"
@@ -13,32 +13,6 @@
             placeholder="Pesquisar"
             class="w-1/4 px-2"
           />
-          <!--<div>
-            <AppButton
-              class="flex text-black"
-              label="Imprimir"
-              variant="white"
-              icon
-              size="large"
-            >
-              <template #icon>
-                <print />
-              </template>
-            </AppButton>
-          </div>
-          <div>
-            <AppButton
-              class="flex text-white"
-              label="Importar"
-              variant="blue-400"
-              icon
-              size="large"
-            >
-              <template #icon>
-                <AddUserIcon />
-              </template>
-            </AppButton>
-          </div>-->
           <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'">
             <AppButton
               class="flex text-white"
@@ -152,7 +126,7 @@
         </div>
       </delet-modal>
       <nuxt-child />
-    </page>
+    </Page>
   </div>
 </template>
 
@@ -238,6 +212,10 @@ export default defineComponent({
         projectName: item.projectName,
         localImplementation: item.localImplementation,
         status: item.status,
+        budget: item.budget,
+        balanceAvailable: item.balanceAvailable,
+        typeCurrency: item.typeCurrency,
+        dateEnd: item.dateEnd
       }))
     },
   },
@@ -250,9 +228,6 @@ export default defineComponent({
     },
 
     goToEdit(project: any) {
-      // project.dateStart = project.dateStart[0]+'/'+project.dateStart[1]+'/'+project.dateStart[2]
-      // console.log(project.dateStart)
-      // const d = Date.parse(project.dateStart)
       this.$router.push({
         name: 'projects-index-id-edit',
         params: { project: project },
@@ -261,7 +236,7 @@ export default defineComponent({
     projectDetail(project: any) {
       this.$router.push({
         name: 'projects-details',
-        params: { project: project},
+        params: { project: project },
       })
     },
 

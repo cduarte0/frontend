@@ -8,7 +8,7 @@
       <div class="grid grid-cols-3 gap-3 space-y-px w-max">
         <TextInput
           v-model="reason"
-          label="Motivo de cancelamento"
+          label="Motivo da rejeicao"
           placeholder="Motivo"
           class="col-span-3"
           required
@@ -61,7 +61,7 @@ export default defineComponent({
         this.$store
         .dispatch('transportation/updateItem', {
           config: {
-            URL: `/transportation/cancel/${(this as any).transportRequest.id+'/'+this.reason}`,
+            URL: `/transportation/reject/${(this as any).transportRequest.id+'/'+this.reason}`,
           },
         //   data:this.reason ,
           // noStoreUpdate: true,
@@ -69,7 +69,7 @@ export default defineComponent({
         .then(() => {
           this.$store.dispatch('ui/pushNotification', {
             type: 'success',
-            message: 'Cancelado',
+            message: 'Rejeitado',
           })
           this.$store.dispatch('transportation/fetchItems')
           this.$router.push({ name: 'requests-transport' })

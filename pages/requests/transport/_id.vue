@@ -34,11 +34,7 @@
           variant="indigo-500"
           icon
           size="large"
-          @click.native="
-            $router.push({
-              name: 'requests-transport-index-create',
-            })
-          "
+          @click.native="openRejectModal(transportRequest)"
         >
         </AppButton>
       </div>
@@ -62,7 +58,7 @@
             </div>
           </template>
           <template v-slot:updatedAt="{ field }">
-            {{ field.value | date }}
+            {{ field.value }}
           </template>
         </information-fields>
       </div>
@@ -145,7 +141,7 @@ export default defineComponent({
         {
           id: 'accommodation',
           label: 'Necessidade de acomodacao',
-          value: (this as any).transportRequest.accommodation,
+          value: (this as any).formatAcomodation((this as any).transportRequest.accommodation),
         },
         {
           id: 'daysToStay',
@@ -223,13 +219,19 @@ export default defineComponent({
     },
   },
   methods: {
+    formatAcomodation(item: boolean) {
+      if (item) return 'Sim'
+      else return 'Nao'
+    },
     formatDate(item: any) {
-      const dateObj = new Date(item * 1000)
-      const dateday = dateObj.getDate()
-      const monthday = dateObj.getMonth() + 1
-      const yearsDay = dateObj.getFullYear()
-      const fulldate = dateday + '-' + monthday + '-' + yearsDay
-      return fulldate
+      if (item) {
+        const dateObj = new Date(item * 1000)
+        const dateday = dateObj.getDate()
+        const monthday = dateObj.getMonth() + 1
+        const yearsDay = dateObj.getFullYear()
+        const fulldate = dateday + '-' + monthday + '-' + yearsDay
+        return fulldate
+      }
     },
     aprove() {
       this.transportRequest.status = 'APROVADO'
@@ -256,9 +258,15 @@ export default defineComponent({
           })
         })
     },
-    openCancelModal(transportRequest:any) {
+    openCancelModal(transportRequest: any) {
       this.$router.push({
         name: 'requests-transport-index-cancelModal',
+        params: { transportRequest: transportRequest },
+      })
+    },
+    openRejectModal(transportRequest: any) {
+      this.$router.push({
+        name: 'requests-transport-index-rejectModal',
         params: { transportRequest: transportRequest },
       })
     },
