@@ -182,6 +182,11 @@ export default defineComponent({
       username: '',
     },
   }),
+
+  created(){
+    this.fetch()
+  },
+
    async fetch({ store }: any) {
       await store.dispatch('roles/fetchItems')
     },
@@ -202,6 +207,11 @@ export default defineComponent({
     }
   },
   methods: {
+
+    fetch() {
+      this.$store.dispatch('projects/fetchItems')
+    },
+
     async handleSubmit(this: any) {
       // @ts-ignore
       const isValid = await this.$refs.observer.validate();
@@ -224,11 +234,11 @@ export default defineComponent({
             type: 'error',
             message: 'Erro ao criar utilizador, por favor tente novamente.',
           })
-        })  
+        })
       }else{
-        
+
       }
-      
+
     },
   },
 })

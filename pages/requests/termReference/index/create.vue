@@ -121,9 +121,11 @@ export default {
       needs: '',
     },
   }),
+
   created(){
     this.fetchAll()
   },
+
   computed:{
     projects(this: any) {
       return Object.values(this.$store.state.projects.all).map((item: any) => ({
