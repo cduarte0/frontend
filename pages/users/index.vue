@@ -194,7 +194,7 @@ export default defineComponent({
 
       {
         key: 'fullName',
-        title: 'Nome',
+        title: 'Nome Completo',
         class: 'whitespace-no-wrap',
       },
       {

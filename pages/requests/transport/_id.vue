@@ -101,12 +101,12 @@ export default defineComponent({
         },
         {
           id: 'vehicleQty',
-          label: 'Qtd de Veiculos',
+          label: 'Quantidade de Veiculos',
           value: (this as any).transportRequest.vehicleQty,
         },
         {
           id: 'numberOfPeoples',
-          label: 'Qtd de viajantes',
+          label: 'Quantidade de Viajantes',
           value: (this as any).transportRequest.numberOfPeoples,
         },
         {
@@ -126,70 +126,85 @@ export default defineComponent({
         },
         {
           id: 'dateTravel',
-          label: 'Data da viagem',
+          label: 'Data da Viagem',
           value: (this as any).formatDate(
             (this as any).transportRequest.dateTravel
           ),
         },
         {
           id: 'dateBack',
-          label: 'Data de volta',
+          label: 'Data de Volta',
           value: (this as any).formatDate(
             (this as any).transportRequest.dateBack
           ),
         },
         {
           id: 'accommodation',
-          label: 'Necessidade de acomodacao',
+          label: 'Necessidade de Acomodação',
           value: (this as any).formatAcomodation((this as any).transportRequest.accommodation),
         },
         {
           id: 'daysToStay',
-          label: 'Dias de permanencia',
+          label: 'Dias de Permanencia',
           value: (this as any).transportRequest.daysToStay,
         },
         {
           id: 'reasonToRequest',
-          label: 'Motivo da requisicao',
+          label: 'Motivo da Requisição',
           value: (this as any).transportRequest.reasonToRequest,
         },
         {
           id: 'coordinator',
-          label: 'Coordenador que aprovou',
+          label: 'Coordenador que Aprovou',
           value: (this as any).transportRequest.coordinator,
         },
         {
           id: 'approvalDateCoordinator',
-          label: 'Data de aprovacao',
+          label: 'Data de Aprovação',
           value: (this as any).formatDate(
             (this as any).transportRequest.approvalDateCoordinator
           ),
         },
         {
           id: 'logistic',
-          label: 'Logistico que aprovou',
+          label: 'Logistico que Aprovou',
           value: (this as any).transportRequest.logistic,
         },
         {
           id: 'approvalDateLogistic',
-          label: 'Data de aprovacao',
+          label: 'Data de Aprovação',
           value: (this as any).formatDate(
             (this as any).transportRequest.approvalDateLogistic
           ),
         },
+
+        {
+          id: 'status',
+          label: 'Estado da Requisição',
+          value: (this as any).transportRequest.status,
+        },
+
         {
           id: 'reason_rejection_cancellation',
-          label: 'Motivo de rejeicao',
+          label: 'Motivo',
           value: (this as any).transportRequest.reason_rejection_cancellation,
         },
         {
-          id: 'status',
-          label: 'Estado',
-          value: (this as any).transportRequest.status,
+          id: 'who_rejected_cancelled',
+          label: 'Autor que Rejeitou/Cancelou',
+          value: (this as any).transportRequest.who_rejected_cancelled,
         },
         {
+          id: 'date_rejected_cancellated',
+          label: 'Data Rejeição/Cancelamento',
+          value: (this as any).formatDate(
+            (this as any).transportRequest.date_rejected_cancellated
+          ),
+        },
+
+        {
           id: 'updatedAt',
-          label: 'Data de adicão',
+          label: 'Data de Criação',
           value: (this as any).formatDate(
             (this as any).transportRequest.updatedAt
           ),

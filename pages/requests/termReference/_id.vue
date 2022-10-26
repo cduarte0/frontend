@@ -84,14 +84,19 @@ export default defineComponent({
     tdrItem() {
       return [
         {
-          id: 'elaboratedBy',
-          label: 'Elaborado por',
-          value: (this as any).tdr.elaboratedBy,
+          id: 'projectName',
+          label: 'Nome do Projecto',
+          value: (this as any).tdr.project.projectName,
         },
         {
-          id: 'dateElaboration',
-          label: 'Data de elaboracao',
-          value: (this as any).tdr.dateElaboration,
+          id: 'locationAndDateActivity',
+          label: 'Local da Actividade',
+          value: (this as any).tdr.locationAndDateActivity,
+        },
+        {
+          id: 'participants',
+          label: 'Participantes',
+          value: (this as any).tdr.participants,
         },
         {
           id: 'beneficiary',
@@ -100,18 +105,59 @@ export default defineComponent({
         },
         {
           id: 'descriptionActivity',
-          label: 'Descricao da atividade',
+          label: 'Descrição da Atividade',
           value: (this as any).tdr.descriptionActivity,
         },
         {
-          id: 'locationAndDateActivity',
-          label: 'Local da atividade',
-          value: (this as any).tdr.locationAndDateActivity,
+          id: 'purposeActivity',
+          label: 'Objectivo da Atividade',
+          value: (this as any).tdr.purposeActivity,
+        },
+        {
+          id: 'balanceTotalActivity',
+          label: 'Valor a Pagar',
+          value: (this as any).tdr.balanceTotalActivity,
+        },
+        {
+          id: 'elaboratedBy',
+          label: 'Elaborado Por',
+          value: (this as any).tdr.elaboratedBy,
+        },
+        {
+          id: 'dateElaboration',
+          label: 'Data de Elaboração',
+          value: (this as any).tdr.dateElaboration,
+        },
+        {
+          id: 'approvedBy',
+          label: 'Aprovado Por',
+          value: (this as any).tdr.approvedBy,
+        },
+        {
+          id: 'dateApproval',
+          label: 'Data de Aprovação',
+          value: (this as any).tdr.dateApproval,
         },
         {
           id: 'status',
-          label: 'Estado',
+          label: 'Estado da Requisição',
           value: (this as any).tdr.status,
+        },
+
+        {
+          id: 'reason_rejection_cancellation',
+          label: 'Motivo',
+          value: (this as any).tdr.reason_rejection_cancellation,
+        },
+        {
+          id: 'whoRejectedCancellated',
+          label: 'Autor que Rejeitou/Cancelou',
+          value: (this as any).tdr.whoRejectedCancellated,
+        },
+        {
+          id: 'dateRejectedCancellated',
+          label: 'Data de Rejeição/Cancelamento',
+          value: (this as any).tdr.dateRejectedCancellated,
         },
       ]
     },

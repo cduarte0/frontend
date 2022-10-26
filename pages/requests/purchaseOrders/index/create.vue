@@ -10,8 +10,8 @@
 
         <TextInput
           v-model="purchaseOrder.descriptionPurchase"
-          label="Descricao da Ordem de Compra"
-          placeholder="descricao da compra"
+          label="Descrição da Ordem de Compra"
+          placeholder="descrição da compra"
           class="col-span-3"
           required
         />
@@ -71,7 +71,7 @@
 
         <TextInput
           v-model="purchaseOrder.paymentTerms"
-          label="Condicoes de Pagamento"
+          label="Condições de Pagamento"
           placeholder=""
           class=""
           required
@@ -79,8 +79,8 @@
 
         <TextInput
           v-model="purchaseOrder.deliveryForecast"
-          label="Previsao de Entrega"
-          placeholder="previsao de entrega"
+          label="Previsão de Entrega"
+          placeholder="previsão de entrega"
           class=""
           required
         />
@@ -130,7 +130,7 @@ export default defineComponent({
       balanceTotalActivity : '',
     },
 
-    department: ['Logistica', 'Financas', 'Direccao', 'Contabilidade'],
+    department: ['Logistica', 'Finanças', 'Direcção', 'Contabilidade'],
 
     purchaseOrder: {
       budgetNumber: '',

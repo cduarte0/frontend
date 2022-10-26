@@ -6,6 +6,11 @@
       @close="$router.push({ name: 'projects' })"
     >
       <div class="grid grid-cols-2 gap-3 space-y-px w-max">
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <TextInput
           v-model="project.projectName"
           label="Nome do projecto"
@@ -105,6 +110,9 @@ import SelectInput from '~/components/common/inputs/SelectInput.vue'
 export default {
   components: { Modal, AppButton, TextInput, SelectInput },
   data: () => ({
+
+    message:'',
+
     currencyType: [
       { id: 1, name: 'MZN', value: 'MZN' },
       { id: 2, name: 'USD', value: 'USD' },
@@ -148,6 +156,7 @@ export default {
             message: 'Erro ao criar projecto, por favor tente novamente.',
           })
         })
+      this.message = 'Erro ao criar projecto, por favor, verifique os campos e tente novamente.'
     },
   },
 }

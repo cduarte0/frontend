@@ -8,7 +8,7 @@
       <div class="grid grid-cols-3 gap-3 space-y-px w-max">
         <TextInput
           v-model="reason"
-          label="Motivo da rejeicao"
+          label="Motivo da rejeição"
           placeholder="Motivo"
           class="col-span-3"
           required

@@ -4,7 +4,11 @@
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
-          <div>
+
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+              || userType === 'ROLE_TECHNICAL'|| userType === 'ROLE_LOGISTIC'
+              || userType === 'ROLE_COORDINATOR'">
+
             <AppButton
               class="flex text-white"
               label="Adicionar"
@@ -33,7 +37,11 @@
           >
             <template #actions="{ value: tdr }">
               <div class="flex flex-wrap items-center space-x-2">
-                <div
+
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+                    || userType === 'ROLE_TECHNICAL'|| userType === 'ROLE_LOGISTIC'
+                    || userType === 'ROLE_COORDINATOR'"
+
                   class="
                     flex
                     w-8
@@ -65,7 +73,10 @@
                 >
                   <ViewOutline />
                 </div>
-                <div
+                <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+                      || userType === 'ROLE_TECHNICAL'|| userType === 'ROLE_LOGISTIC'
+                      || userType === 'ROLE_COORDINATOR'"
+
                   class="
                     flex
                     w-8
@@ -131,6 +142,8 @@ export default defineComponent({
     ViewOutline,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
 
     showDeleteModal: false,
 
@@ -144,7 +157,7 @@ export default defineComponent({
     tdrHeaders: [
       {
         key: "descriptionTdR",
-        title: "Descricao da TdR",
+        title: "Descrição da TdR",
         class: "whitespace-no-wrap",
       },
       {
@@ -165,6 +178,12 @@ export default defineComponent({
   },
 
   computed: {
+
+    userType(): any {
+    // @ts-ignore
+    return this.$store.state.auth.user.userRole
+  },
+
     tdrs(this:any) {
       return Object.values(this.$store.state.tdrs.all).map((item: any) => ({
         id: item.id,

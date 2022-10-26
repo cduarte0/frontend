@@ -63,7 +63,7 @@ export default defineComponent({
       },
       {
         id: 'localImplementation',
-        label: 'Local de implementacao',
+        label: 'Local de implementação',
         value: (this as any).project.localImplementation,
       },
       {
@@ -123,13 +123,17 @@ export default defineComponent({
     },
     getStatus(item: string) {
       const status = { class: '', label: '' }
-      if (item === 'Activo' || item === 'Ativo') {
+      if (item === 'Activo' || item === 'Ativo'|| item === 'ativo' || item === 'activo') {
         status.class = 'bg-green-500'
         status.label = 'Activo'
       }
-      if (item === 'Bloqueiado') {
+      if (item === 'Bloqueiado' || item === 'Bloqueado'|| item === 'bloqueado'|| item === 'bloqueiado') {
         status.class = 'bg-red-500'
         status.label = 'Bloqueiado'
+      }
+      if (item === 'Terminado' || item === 'terminado') {
+        status.class = 'bg-red-500'
+        status.label = 'Terminado'
       }
 
       return status

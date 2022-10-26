@@ -7,7 +7,7 @@
     >
       <div class="grid grid-cols-2 gap-4 space-y-px w-max">
         <TextInput
-          label="Nome"
+          label="Nome da Compania"
           placeholder="Nome"
           v-model="carrier.companyName"
           class="col-span-2"
@@ -15,21 +15,21 @@
         />
         <TextInput
           label="E-mail"
-          placeholder="email"
+          placeholder="e-mail"
           v-model="carrier.email"
           class=""
           required
         />
         <TextInput
-          label="Endereco"
-          placeholder="endereco"
+          label="Endereço"
+          placeholder="endereço"
           v-model="carrier.address"
           class=""
           required
         />
         <TextInput
           label="Nuit"
-          placeholder="1236587"
+          placeholder="400883807"
           v-model="carrier.nuit"
           class=""
           required

@@ -24,6 +24,10 @@
             </AppButton>
           </div>
 
+          <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+            {{ message }}
+          </div>
+
         </div>
         <div class="flex w-full">
           <Table
@@ -144,6 +148,8 @@ export default defineComponent({
     ViewOutline,
   },
   data: () => ({
+    message:'',
+
     modules: [],
     hiddenSettings: true,
 
@@ -230,6 +236,7 @@ export default defineComponent({
             message: 'Erro ao eliminar o parceiro, por favor tente novamente.',
           })
         })
+      this.message = 'Erro ao eliminar o parceiro, por favor tente novamente.'
       }
     },
   });

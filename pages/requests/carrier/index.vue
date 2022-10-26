@@ -159,7 +159,7 @@ export default defineComponent({
       },
       {
         key: "address",
-        title: "Endereco",
+        title: "Endereço",
         class: "whitespace-no-wrap",
       },
     ],

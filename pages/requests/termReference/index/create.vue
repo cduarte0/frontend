@@ -8,15 +8,15 @@
       <div class="grid grid-cols-2 gap-3 space-y-px w-max">
         <TextInput
           v-model="tdr.descriptionActivity"
-          label="Descricao da atividade"
+          label="Descrição da atividade"
           placeholder="Descricao da atividade"
           class="col-span-2"
           required
         />
         <TextInput
           v-model="tdr.descriptionTdR"
-          label="Descricao da TDR"
-          placeholder="Codigo"
+          label="Descrição da TDR"
+          placeholder="Descrição da TDR"
           class=""
           required
         />
@@ -44,7 +44,7 @@
         />
         <SelectInput
             label="Nome de projecto"
-            placeholder="Selecione uma opcao"
+            placeholder="Selecione uma opção"
             :items="projects"
             v-model="project"
             class=""
@@ -59,7 +59,7 @@
         />
         <SelectInput
           v-model="transportation"
-          label="Requisicao do Transporte"
+          label="Requisição do Transporte"
           placeholder="Transporte"
           :items="transportRequests"
           class=""

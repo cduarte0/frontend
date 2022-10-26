@@ -8,7 +8,7 @@
               <div class="w-full">
                 <TextInput
                   v-model="materialDescription"
-                  label="Descricao do material"
+                  label="Descrição do material"
                   placeholder=""
                   class=""
                   required
@@ -31,7 +31,7 @@
                 />
                 <TextInput
                   v-model="unitValue"
-                  label="Preco unitario"
+                  label="Preço unitario"
                   placeholder=""
                   type="number"
                   class=""
@@ -132,7 +132,7 @@ export default {
     cardHeaders: [
       {
         key: 'materialDescription',
-        title: 'Descricao',
+        title: 'Descrição',
         class: 'whitespace-no-wrap',
       },
       {
@@ -147,7 +147,7 @@ export default {
       },
       {
         key: 'unitValue',
-        title: 'preco',
+        title: 'preço',
         class: 'whitespace-no-wrap',
       },
     ],

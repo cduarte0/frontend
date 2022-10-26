@@ -6,6 +6,11 @@
       @close="$router.push({ name: 'partners' })"
     >
       <div class="grid grid-cols-2 gap-3 space-y-px w-max">
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <TextInput
           v-model="partner.companyName"
           label="Nome do completo"
@@ -16,15 +21,15 @@
         <TextInput
           v-model="partner.nuit"
           label="Nuit"
-          placeholder="Nuit"
+          placeholder="400834432"
           type="number"
           class=""
           required
         />
         <TextInput
           v-model="partner.address"
-          label="Endereco"
-          placeholder="Endereco"
+          label="Endereço"
+          placeholder="Endereço"
           class=""
           required
         />
@@ -37,7 +42,7 @@
         />
         <SelectInput
           label="Projecto"
-          placeholder="Selecione uma opcao"
+          placeholder="Selecione uma opção"
           :items="projects"
           v-model="selectedProject"
           class=""
@@ -76,6 +81,9 @@ export default {
   components: { Modal, AppButton, TextInput, SelectInput },
 
   data: () => ({
+
+    message : '',
+
     partner: {
       companyName: '',
       nuit: '',
@@ -87,6 +95,7 @@ export default {
   }),
 
   created(){
+    // @ts-ignore
     this.fetch()
   },
 
@@ -103,6 +112,7 @@ export default {
   methods: {
 
     fetch() {
+      // @ts-ignore
       this.$store.dispatch('projects/fetchItems')
     },
 
@@ -126,6 +136,9 @@ export default {
             message: 'Erro ao adicionar parceiro, por favor tente novamente.',
           })
         })
+
+      this.message = 'Erro ao adicionar parceiro, por favor tente novamente.'
+
     },
   },
 }

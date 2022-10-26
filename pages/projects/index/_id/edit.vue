@@ -7,6 +7,11 @@
       @close="$router.push({ name: 'projects' })"
     >
       <div class="grid grid-cols-3 gap-3 space-y-px w-max">
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <TextInput
           v-model="project.projectName"
           label="Nome do projecto"
@@ -23,16 +28,16 @@
         />
         <TextInput
           v-model="project.localImplementation"
-          label="Local de implementacao"
-          placeholder="Local de implementacao"
+          label="Local de implementação"
+          placeholder="Local de implementação"
           class=""
           required
         />
         <TextInput
           v-model="project.budget"
           type="number"
-          label="Orcamento"
-          placeholder="Orcamento"
+          label="Orçamento"
+          placeholder="Orçamento"
           class=""
           required
         />
@@ -115,6 +120,9 @@ export default {
     }
   },
   data:()=>({
+
+    message:'',
+
     newDate: '',
   }),
   methods: {
@@ -128,7 +136,7 @@ export default {
     },
     handleSubmit(this:any) {
       if(this.newDate){
-        this.project.dateEnd = this.newDate  
+        this.project.dateEnd = this.newDate
       }else{
         //this.project.dateEnd = this.formatDate(this.project.dateEnd)
       }
@@ -154,6 +162,7 @@ export default {
             message: 'Erro ao atualizar projecto, por favor tente novamente.',
           })
         })
+      this.message = 'Erro ao atualizar o projecto.'
     },
   },
 };

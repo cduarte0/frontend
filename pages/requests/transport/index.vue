@@ -8,7 +8,10 @@
       <div class="flex flex-col space-y-6">
         <div class="flex flex-row space-x-2 justify-end">
           <TextInput label="" placeholder="Pesquisar" class="w-1/4 px-2" />
-          <div>
+
+          <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+              || userType === 'ROLE_TECHNICAL'|| userType === 'ROLE_LOGISTIC'
+              || userType === 'ROLE_COORDINATOR'">
             <AppButton
               class="flex text-white"
               label="Requisitar"
@@ -23,6 +26,7 @@
             >
             </AppButton>
           </div>
+
         </div>
         <div class="flex w-full">
           <Table
@@ -138,7 +142,11 @@ export default defineComponent({
     DeleteOutline,
   },
   data: () => ({
+    modules: [],
+    hiddenSettings: true,
+
     showDeleteModal: false,
+
     filters: {
       page: 0,
       name: '',
@@ -149,12 +157,13 @@ export default defineComponent({
       id: '',
       descriptionRequest: '',
       requestorResponsible: '',
-      projectName: '',
+      // projectName: '',
+      status:'',
     },
     requestHeaders: [
       {
         key: 'descriptionRequest',
-        title: 'Descricao da Solicitacao',
+        title: 'Descrição da Solicitação',
         class: 'whitespace-no-wrap',
       },
 
@@ -163,25 +172,38 @@ export default defineComponent({
         title: 'Requisitante',
         class: 'whitespace-no-wrap',
       },
+      // {
+      //   key: 'projectName',
+      //   title: 'Projecto',
+      //   class: 'whitespace-no-wrap',
+      // },
       {
-        key: 'projectName',
-        title: 'Projecto',
+        key: 'status',
+        title: 'estado',
         class: 'whitespace-no-wrap',
       },
     ],
   }),
+
   async fetch({ store }: any) {
     await store.dispatch('transportation/fetchItems')
   },
 
   computed: {
+
+    userType(): any {
+    // @ts-ignore
+    return this.$store.state.auth.user.userRole
+  },
+
     transportRequests(this: any) {
       return Object.values(this.$store.state.transportation.all).map(
         (item: any) => ({
           id: item.id,
           descriptionRequest: item.descriptionRequest,
           requestorResponsible: item.requestorResponsible,
-          projectName: item.project.projectName,
+          // projectName: item.project.projectName,
+          status: item.status,
         })
       )
     },

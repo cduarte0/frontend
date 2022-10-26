@@ -66,7 +66,7 @@
                 </div>
 
                 <div v-if="userType === 'ROLE_ADMIN' || userType === 'ROLE_LOGISTIC'
-                          || userType === 'ROLE_MANAGER'"
+                          || userType === 'ROLE_COORDINATOR'"
                   class="
                     flex
                     w-8
@@ -129,7 +129,7 @@ export default defineComponent({
       },
       {
         key: "createdAt",
-        title: "Data de requisicao",
+        title: "Data de requisição",
         class: "whitespace-no-wrap"
       },
       {

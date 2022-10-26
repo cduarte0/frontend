@@ -32,6 +32,11 @@
             </AppButton>
           </div>
         </div>
+
+        <div v-if="message" style="align-content: center; font-family: Arial; color: red" >
+          {{ message }}
+        </div>
+
         <div class="flex w-full">
           <Table
             class="w-full"
@@ -83,7 +88,7 @@
 
                 <div
                   v-if="
-                    userType === 'ROLE_ADMIN' || userType === 'ROLE_MANAGER'
+                    userType === 'ROLE_ADMIN'
                   "
                   class="
                     flex
@@ -158,6 +163,9 @@ export default defineComponent({
     DeleteOutline,
   },
   data: () => ({
+
+    message:'',
+
     modules: [],
     hiddenSettings: true,
 
@@ -173,6 +181,7 @@ export default defineComponent({
       projectName: '',
       localImplementation: '',
       status: '',
+      dateEnd:'',
     },
     projectHeaders: [
       {
@@ -183,6 +192,11 @@ export default defineComponent({
       {
         key: 'localImplementation',
         title: 'Implementação',
+        class: 'whitespace-no-wrap',
+      },
+      {
+        key: 'dateEnd',
+        title: 'Fim do Projecto',
         class: 'whitespace-no-wrap',
       },
       {
@@ -215,7 +229,7 @@ export default defineComponent({
         budget: item.budget,
         balanceAvailable: item.balanceAvailable,
         typeCurrency: item.typeCurrency,
-        dateEnd: item.dateEnd,
+        dateEnd: item.dateEnd[0] + '-' + item.dateEnd[1]+ '-' + item.dateEnd[2],
         projectCode: item.projectCode,
         accountNumberProject: item.accountNumberProject
       }))
@@ -266,6 +280,7 @@ export default defineComponent({
             message: 'Erro ao eliminar o projecto, por favor tente novamente.',
           })
         })
+      this.message = 'Erro ao eliminar o projecto, por favor, verifique os campos e tente novamente.'
     },
   },
 })

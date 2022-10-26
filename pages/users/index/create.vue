@@ -23,7 +23,7 @@
           />
           <SelectInput
             label="Genero"
-            placeholder="Selecione uma opcao"
+            placeholder="Selecione uma opção"
             :items="gender"
             v-model="users.gender"
             class=""
@@ -31,7 +31,7 @@
           />
           <SelectInput
             label="Estado Civil"
-            placeholder="Selecione uma opcao"
+            placeholder="Selecione uma opção"
             :items="statusM"
             v-model="users.civilStatus"
             class=""
@@ -46,13 +46,13 @@
           />
           <TextInput
             label="E-mail"
-            placeholder="jdf@fulano.com"
+            placeholder="jdf@email.com"
             v-model="users.email"
             class=""
             required
           />
           <TextInput
-            label="Endereco"
+            label="Endereço"
             placeholder="Eduardo Mondlane"
             v-model="users.address"
             class=""
@@ -67,7 +67,7 @@
           />
           <TextInput
             label="Data de nascimento"
-            placeholder="2022-08-28"
+            placeholder="1998-08-28"
             v-model="users.dateBirth"
             type="date"
             class=""
@@ -83,7 +83,7 @@
           />
           <TextInput
             label="Fim de contrato"
-            placeholder="2022-08-28"
+            placeholder="2025-08-28"
             v-model="users.dateEnd"
             type="date"
             class=""
@@ -91,7 +91,7 @@
           />
           <SelectInput
             label="Tipo de utilizador"
-            placeholder="Selecione uma opcao"
+            placeholder="Selecione uma opção"
             :items="roles"
             v-model="users.roles"
             class=""
@@ -99,7 +99,7 @@
           />
           <SelectInput
             label="Projecto"
-            placeholder="Selecione uma opcao"
+            placeholder="Selecione uma opção"
             :items="projects"
             v-model="selectedProject"
             class=""
